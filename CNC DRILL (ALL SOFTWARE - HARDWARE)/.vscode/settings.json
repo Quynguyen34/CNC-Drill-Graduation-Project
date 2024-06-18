@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "i2c.h": "c",
+        "main.h": "c",
+        "gpio.h": "c",
+        "freertos.h": "c",
+        "menulcd.h": "c",
+        "accelstepper.h": "c"
+    }
+}

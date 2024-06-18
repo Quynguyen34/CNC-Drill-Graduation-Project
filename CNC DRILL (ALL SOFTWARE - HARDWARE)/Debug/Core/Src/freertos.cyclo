@@ -1,0 +1,11 @@
+../Core/Src/freertos.c:122:10:max3	3
+../Core/Src/freertos.c:127:6:DelayUs_step	2
+../Core/Src/freertos.c:136:6:HOME	8
+../Core/Src/freertos.c:169:6:MoveToPosXY	10
+../Core/Src/freertos.c:197:6:MoveToPosZ	7
+../Core/Src/freertos.c:243:6:StartDefaultTask	2
+../Core/Src/freertos.c:282:6:StartADC	1
+../Core/Src/freertos.c:302:6:StartLCD	1
+../Core/Src/freertos.c:325:6:StartUART_TX	1
+../Core/Src/freertos.c:345:6:StartUART_RX	2
+../Core/Src/freertos.c:371:6:MX_FREERTOS_Init	1

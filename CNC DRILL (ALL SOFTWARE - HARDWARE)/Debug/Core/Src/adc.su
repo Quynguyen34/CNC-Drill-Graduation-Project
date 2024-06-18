@@ -1,0 +1,6 @@
+../Core/Src/adc.c:48:6:MX_ADC1_Init	24	static
+../Core/Src/adc.c:99:6:ADC_Select_CH10	24	static
+../Core/Src/adc.c:112:6:ADC_Select_CH11	24	static
+../Core/Src/adc.c:127:6:MX_DMA_ADC_Init	16	static
+../Core/Src/adc.c:146:6:HAL_ADC_MspInit	48	static
+../Core/Src/adc.c:202:6:HAL_ADC_MspDeInit	16	static

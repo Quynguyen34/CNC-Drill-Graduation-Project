@@ -1,0 +1,12 @@
+../Core/Src/freertos.c:143:6:vol_messure	32	static
+../Core/Src/freertos.c:168:6:cur_messure	32	static
+../Core/Src/freertos.c:196:6:start_adc	8	static
+../Core/Src/freertos.c:394:6:StartADC	8	static
+../Core/Src/freertos.c:212:6:start_lcd	8	static
+../Core/Src/freertos.c:413:6:StartLCD	8	static
+../Core/Src/freertos.c:276:6:DelayUs_step	16	static
+../Core/Src/freertos.c:285:6:HOME	16	static
+../Core/Src/freertos.c:310:6:MoveToPos	56	static
+../Core/Src/freertos.c:335:6:MovetoZ	24	static
+../Core/Src/freertos.c:355:6:StartDefaultTask	16	static
+../Core/Src/freertos.c:434:6:MX_FREERTOS_Init	8	static

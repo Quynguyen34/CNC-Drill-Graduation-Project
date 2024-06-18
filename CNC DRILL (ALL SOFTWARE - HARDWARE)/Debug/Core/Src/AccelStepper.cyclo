@@ -1,0 +1,5 @@
+../Core/Src/AccelStepper.c:53:6:Accel_Stepper_SetPin	1
+../Core/Src/AccelStepper.c:65:6:Accel_Stepper_SetTimer	1
+../Core/Src/AccelStepper.c:72:6:Accel_Stepper_TIMIT_Handler	10
+../Core/Src/AccelStepper.c:171:6:Accel_Stepper_Move	10
+../Core/Src/AccelStepper.c:267:6:Accel_Stepper_Stop	1

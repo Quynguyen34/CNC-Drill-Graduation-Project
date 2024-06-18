@@ -1,0 +1,6 @@
+../Core/Src/adc.c:46:6:MX_ADC1_Init	2
+../Core/Src/adc.c:97:6:ADC_Select_CH10	2
+../Core/Src/adc.c:110:6:ADC_Select_CH11	2
+../Core/Src/adc.c:125:6:MX_DMA_Init	1
+../Core/Src/adc.c:144:6:HAL_ADC_MspInit	3
+../Core/Src/adc.c:200:6:HAL_ADC_MspDeInit	2

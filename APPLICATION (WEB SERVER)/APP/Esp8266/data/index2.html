@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TRITECH CNC</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="./css/base.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/responsive.css">
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="./fonts/fontawesome-free-6.5.1-web/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    
+    <body>
+        <!-- Block Element Modifer-->
+        <div class="app">
+            <header class="header">
+                <div class="grid">
+                    <nav class="header_navbar">
+                        <ul class="header__navbar-list">
+                            <li class="header__navbar-item">
+                                <span class="header__navbar-title--no-pointer">Connect</span>
+                                <a href="" class="header__navbar-icon-link">
+                                    <i class="header__navbar-icon material-icons">facebook</i>
+                                </a>
+                                <a href="" class="header__navbar-icon-link">
+                                    <i class="header__navbar-icon material-icons">linked_camera</i>
+                                </a>
+                                <a href="" class="header__navbar-icon-link">
+                                    <i class="header__navbar-icon material-icons">subscriptions</i>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                        <ul class="header__navbar-list">
+                            <li class="header__navbar-item header__navbar-item--has-notify">
+                                <a href="" class="header__navbar-item-link">
+                                    <i class="header__navbar-icon material-icons">notifications</i>
+                                    Notifications
+                                </a>
+                                <div class="header__notify">
+                                    <header class="header__notify-header">
+                                        <h3>New Notifications</h3>
+                                    </header>
+                                    <ul class="header__notify-list">
+                                        <li class="header__notify-item header__notify-item--viewed">
+                                            <a href="" class="header__notify-link">
+                                                <img src="https://drive.google.com/thumbnail?id=1-LLuX9CGh4gJKbaNkg0fH9J9HrtnjiFj" alt="" class="header__notify-img">
+                                                <div class="header__notify-info">
+                                                    <span class="header__notify-name">Program 1</span>
+                                                    <span class="header__notify-description">Active</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="header__notify-item header__notify-item--viewed">
+                                            <a href="" class="header__notify-link">
+                                                <img src="https://drive.google.com/thumbnail?id=1ZYk0R5X9BZY-6STzzU1lVxtpMKXSJIx4" alt="" class="header__notify-img">
+                                                <div class="header__notify-info">
+                                                    <span class="header__notify-name">Program 2</span>
+                                                    <span class="header__notify-description">Active</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="header__notify-item header__notify-item--viewed">
+                                            <a href="" class="header__notify-link">
+                                                <img src="https://drive.google.com/thumbnail?id=1cAVW7Dd3GgqboCWFnmEs7XVqqbwQptPo" alt="" class="header__notify-img">
+                                                <div class="header__notify-info">
+                                                    <span class="header__notify-name">Program 3</span>
+                                                    <span class="header__notify-description">Active</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <footer class="header__notify-footer">
+                                        <a href="" class="header__notify-footer-btn">Show all</a>
+                                    </footer>
+                                </div>
+                            </li>
+                            <li class="header__navbar-item">
+                                <a href="" class="header__navbar-item-link">
+                                    <i class="header__navbar-icon material-icons">help</i>
+                                    Help
+                                </a>
+                            </li>
+                            <!-- <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate">Sign In</li>
+                            <li class="header__navbar-item header__navbar-item--strong">Log In</li> -->
+                            <li class="header__navbar-item header__navbar-user">
+                                <img src="https://drive.google.com/thumbnail?id=1lxeFAEKo9wxWUNhYfvIJ6hcJc6dLac45" alt="" class="header__navbar-user-img">
+                                <span class="header__navbar-user-name">WIS</span>
+
+                                <ul class="header__navbar-user-menu">
+                                    <li class="header__navbar-user-item">
+                                        <a href="">My Account</a>
+                                    </li>
+                                    <li class="header__navbar-user-item">
+                                        <a href="">My Address</a>
+                                    </li>
+                                    <li class="header__navbar-user-item">
+                                        <a href="">Active</a>
+                                    </li>
+                                    <li class="header__navbar-user-item header__navbar-user-item--separate">
+                                        <a href="">Log Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <!-- Header with search -->
+                    <div class="header-with-search">
+                        <div class="header__logo">
+                            <a href="./index1.html" class="header__logo-link">
+                                <img src="https://drive.google.com/thumbnail?id=1t4R38bSQaYoikRqydZt7b6kMGsWQtVhs" alt="" class="header__logo-img">
+                            </a>
+                        </div>
+
+                        <div class="header__search">
+                            <div class="header__search-input-wrap">
+                                <input type="text" class="header__search-input" placeholder="Type to find programing">
+
+                                <!-- Search history-->
+                                <div class="header-search-history">
+                                    <h3 class="header-search-history-heading">Browsing history</h3>
+                                    <ul class="header-search-history-list">
+                                        <li class="header-search-history-item">
+                                            <a href="">Program 1</a>
+                                        </li>
+                                        <li class="header-search-history-item">
+                                            <a href="">Program 2</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button class="header__search-btn">
+                                <i class="header__search-btn-icon material-icons">search</i>
+                            </button>
+                        </div>
+
+                        <!-- Menu layout -->
+                        <div class="header__menu">
+                            <div class="header__menu-wrap">
+                                <i class="header__menu-icon material-icons">view_headline</i>
+                                <span class="header__menu-notice">3</span>
+
+                                <!-- No program: header__menu-list--no-menu-->
+                                <div class="header__menu-list">
+                                    <img src="./img/menu.png" alt="" class="header__menu-no-menu-img">
+                                    <span class="header__menu-list-no-menu-msg">
+                                        Program not available yet
+                                    </span>
+
+                                    <h4 class="header__menu-heading">Program has been added</h4>
+                                    <ul class="header__menu-list-iteam">
+                                        <!-- Menu item -->
+                                        <li class="header__menu-iteam">
+                                            <img src="https://drive.google.com/thumbnail?id=1-LLuX9CGh4gJKbaNkg0fH9J9HrtnjiFj" alt="" class="header__menu-img">
+                                            <div class="header__menu-iteam-info">
+                                                <div class="header__menu-iteam-head">
+                                                    <h5 class="header__menu-iteam-name">Program 1</h5>
+                                                    <div class="header__menu-iteam-state-wrap">
+                                                        <span class="header__menu-iteam-state">Active</span>
+                                                        <i class="header__menu-iteam-icon-state material-icons">flash_on</i>
+                                                    </div>
+                                                </div>
+                                                <div class="header__menu-iteam-body">
+                                                    <span class="header__menu-iteam-description">
+                                                        Chart Parameters
+                                                    </span>
+                                                    <span class="header__menu-iteam-stop">Stop</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="header__menu-iteam">
+                                            <img src="https://drive.google.com/thumbnail?id=1ZYk0R5X9BZY-6STzzU1lVxtpMKXSJIx4" alt="" class="header__menu-img">
+                                            <div class="header__menu-iteam-info">
+                                                <div class="header__menu-iteam-head">
+                                                    <h5 class="header__menu-iteam-name">Program 2</h5>
+                                                    <div class="header__menu-iteam-state-wrap">
+                                                        <span class="header__menu-iteam-state">Active</span>
+                                                        <i class="header__menu-iteam-icon-state material-icons">flash_on</i>
+                                                    </div>
+                                                </div>
+                                                <div class="header__menu-iteam-body">
+                                                    <span class="header__menu-iteam-description">
+                                                        Control CNC 3 axis: X Y Z
+                                                    </span>
+                                                    <span class="header__menu-iteam-stop">Stop</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="header__menu-iteam">
+                                            <img src="https://drive.google.com/thumbnail?id=1cAVW7Dd3GgqboCWFnmEs7XVqqbwQptPo" alt="" class="header__menu-img">
+                                            <div class="header__menu-iteam-info">
+                                                <div class="header__menu-iteam-head">
+                                                    <h5 class="header__menu-iteam-name">Program 3</h5>
+                                                    <div class="header__menu-iteam-state-wrap">
+                                                        <span class="header__menu-iteam-state">Active</span>
+                                                        <i class="header__menu-iteam-icon-state material-icons">flash_on</i>
+                                                    </div>
+                                                </div>
+                                                <div class="header__menu-iteam-body">
+                                                    <span class="header__menu-iteam-description">
+                                                        Accelstepper/Speedstepper
+                                                    </span>
+                                                    <span class="header__menu-iteam-stop">Stop</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <i class="header__menu-view-menu btn btn--primary">Check program</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div id="mobile-category-menu" class="category-btn__mobile">
+                <i class="category_btn material-icons">list</i>
+            </div>
+            <div class="app__container">
+                <div class="grid">
+                    <div class="grid__row app__content">
+                        <div class="grid__column-2">
+                            <nav class="category">
+                                <h3 class="category__heading">Category</h3>
+                                <ul class="category-list">
+                                    <li class="category-item ">
+                                        <a href="index1.html" class="category-item__link">Program 1</a>
+                                    </li>
+                                    <li class="category-item category-item--active">
+                                        <a href="index2.html" class="category-item__link">Program 2</a>
+                                    </li>
+                                    <li class="category-item">
+                                        <a href="index3.html" class="category-item__link">Program 3</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+    
+                        <div class="grid__column-10">
+                            <div class="home-filter">
+                                <span class="home-filter__label">Operating Panel</span>
+                                <button id="startButton" class="home-filter__btn btn">Start</button>
+                                <button id="stopButton" class="home-filter__btn btn">Stop</button>
+                                <button id="resetButton" class="home-filter__btn btn">Reset</button>
+
+                                <div class="select-input">
+                                    <span class="select-input__label">Option</span>
+                                    <i class="select-input__icon material-icons">keyboard_arrow_down</i>
+                                    <!-- List option-->
+                                    <ul class="select-input__list">
+                                        <li class="select-input__item">
+                                            <a href="#" id="speedLow" class="select-input__link">Low</a>
+                                        </li>
+                                        <li class="select-input__item">
+                                            <a href="#" id="speedMedium" class="select-input__link">Medium</a>    
+                                        </li>
+                                        <li class="select-input__item">
+                                            <a href="#" id="speedHigh" class="select-input__link">High</a>   
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+
+                                <div class="home-filter__page">
+                                    <span class="home-filter__page-num">
+                                        <span class="home-filter__page-current">1</span>/3
+                                    </span>
+                                    <div class="home-filter__page-control">
+                                        <a href="" id="prevPage" class="home-filter__page-btn home-filter__page-btn--disabled">
+                                            <i class="home-filter__page-icon material-icons">keyboard_arrow_left</i>
+                                        </a>
+                                        <a href="" id="nextPage" class="home-filter__page-btn">
+                                            <i class="home-filter__page-icon material-icons">keyboard_arrow_right</i>
+                                        </a>
+                                    </div>
+                                </div>                               
+                            </div>
+
+                            <div class="home-product">
+                                <!-- Grid -> Row -> Colum -->
+                                <div class="grid__row">
+                                    <div class="grid__column-12 ">
+                                        <!-- Product item -->
+
+                                        <!-- <a class="home-product-item" href="#">
+                                            <div id="chart-voltage" class="home-product-item-chart"></div>
+                                        </a> -->
+                                        <div class="grid__column-12-8 ">  
+                                            <div class="cnc-control">
+                                                <div class="control-panel">
+                                                    <ul class="control-panel__container">
+                                                        <li class="control-panel__container_li">
+                                                            <label class="control-panel__container-label" for="x-label">X</label>
+                                                            <input class="control-panel__container-scroll-bar" type="range" id="x-position" min="0" max="850" value="0">
+                                                            <input class="control-panel__container-number-input" type="number" id="x-value" min="0" max="850" value="0">         
+                                                        </li>
+                                                        <li class="control-panel__container_li">
+                                                            <label class="control-panel__container-label" for="y-label">Y</label>
+                                                            <input class="control-panel__container-scroll-bar" type="range" id="y-position" min="0" max="1650" value="0">
+                                                            <input class="control-panel__container-number-input" type="number" id="y-value" min="0" max="1650" value="0">
+                                                        </li>
+                                                        <li class="control-panel__container_li">
+                                                            <label class="control-panel__container-label" for="z-label">Z</label>
+                                                            <input class="control-panel__container-scroll-bar" type="range" id="z-position" min="0" max="700" value="0">
+                                                            <input class="control-panel__container-number-input" type="number" id="z-value" min="0" max="700" value="0">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>   
+                                        </div>
+                                    </div>
+
+                                    <div class="grid__column-12-4">
+                                        <!-- Drill and button section -->
+                                        <div class="cnc-control1">
+                                            <div class="control-panel1">
+                                                <label id="labelbutton" class="labelbutton">Drill</label>
+                                                <button id="DrillButton" class="toggle-button">
+                                                    <span class="toggle-button-inner"></span>
+                                                </button>
+                                                <button onclick="submitValues()" class="btn submit-btn">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>X</th>
+                                                <th>Y</th>
+                                                <th>Z</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-body">
+                                            <!-- Rows will be added here by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                                               
+                                </div>
+                            </div>
+
+                            <ul class="pagination home-product__pagination">
+                                <li class="pagination-item">
+                                    <a href="" id="paginationPrev" class="pagination-item__link">
+                                        <i class="pagination-item__icon-left material-icons">keyboard_arrow_left</i>
+                                    </a>
+                                </li>
+                                <li class="pagination-item ">
+                                    <a href="index1.html" class="pagination-item__link">
+                                        <i class="pagination-item__icon">1</i>
+                                    </a>
+                                </li>
+                                <li class="pagination-item pagination-item--active">
+                                    <a href="index2.html" class="pagination-item__link">
+                                        <i class="pagination-item__icon">2</i>
+                                    </a>
+                                </li>
+                                <li class="pagination-item">
+                                    <a href="index3.html" class="pagination-item__link">
+                                        <i class="pagination-item__icon">3</i>
+                                    </a>
+                                </li>
+                                <li class="pagination-item">
+                                    <a href="" id="paginationNext" class="pagination-item__link">
+                                        <i class="pagination-item__icon-right material-icons">keyboard_arrow_right</i>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="grid">
+                    <div class="grid__row">
+                        <div class="grid__column-2-4 grid__column-5-1-2">
+                            <h3 class="footer__heading">Customer Care</h3>
+                            <ul class="footer__list">
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">Help</a>
+                                </li>
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">Mail</a>
+                                </li>
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">Guidline</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grid__column-2-4 grid__column-5-1-2">
+                            <h3 class="footer__heading">Introduction</h3>
+                            <ul class="footer__list">
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">Component</a>
+                                </li>
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">Reference documents</a>
+                                </li>
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">Guide</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grid__column-2-4 grid__column-5-1-2">
+                        </div>                        
+                        <div class="grid__column-2-4">
+                            <h3 class="footer__heading">Social</h3>
+                            <ul class="footer__list">
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">
+                                        <i class="footer-item__icon material-icons">facebook</i>
+                                        Facebook
+                                    </a>
+                                </li>
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">
+                                        <i class="footer-item__icon material-icons">linked_camera</i>
+                                        Instagram
+                                    </a>
+                                </li>
+                                <li class="footer-item">
+                                    <a href="" class="footer-item__link">
+                                        <i class="footer-item__icon material-icons">subscriptions</i>
+                                        Youtube
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grid__column-2-4 grid__column-5-1-2">
+                            <h3 class="footer__heading">Store on App</h3>
+                            <div class="footer__download">
+                                <img src="https://drive.google.com/thumbnail?id=1wA-dKcpojz8OGT9GrTAp9v5Ot_HvUn8S" alt="" class="footer__download-qr">
+                                <div class="footer__download-apps">
+                                    <a href="" class="footer__download-app-link">
+                                        <img src="https://drive.google.com/thumbnail?id=1zlnJv_nByLojrC4AoB0alGF5PBpPRfWG" alt="App Store" class="footer__download-app-img">
+                                    </a>
+                                    <a href="" class="footer__download-app-link">
+                                        <img src="https://drive.google.com/thumbnail?id=17cw3AqSXq25S-99Ly8GL_pe5Mj4W4WmK" alt="Google Play" class="footer__download-app-img">
+                                    </a>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="footer__bottom">
+                    <div class="grid">
+                        <a href="./index1.html" class="footer__logo-link">
+                            <img src="https://drive.google.com/thumbnail?id=1t4R38bSQaYoikRqydZt7b6kMGsWQtVhs" alt="" class="footer-logo">
+                        </a>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">© 2024 Copyright by DRILL CNC</p>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY AND EDUCATION</p>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">MECHATRONICS ENGINEERING</p>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">M.Sc. TRIET NGUYEN MINH</p>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">HUNG TRAN THAO - QUY NGUYEN NGOC - THOA PHAN THI KIM</p>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">&#160</p>
+                    </div>
+                    <div class="grid">
+                        <p class="footer__text">We would like to extend our heartfelt thanks to all the teachers, friends, and family who supported and encouraged us throughout the completion of this project.</p>
+                        <p class="footer__text">Special thanks to M.Sc. Triet Nguyen Minh for his dedicated guidance, valuable knowledge, and for providing the favorable conditions that enabled us to complete this project.</p>
+                        <p class="footer__text">We also express our gratitude to the Ho Chi Minh City University of Technology and Education and the Faculty of Mechanical Engineering for providing an ideal learning and research environment, along with the necessary equipment for us to carry out this project.</p>
+                        <p class="footer__text">Finally, we thank all our teammates: Hung Tran Thao, Quy Nguyen Ngoc, Thoa Phan Thi Kim, for their effort, unity, and hard work to complete the project on time and achieve the best results.</p>
+                        <p class="footer__text">Thank you all!</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!--  Modal layout -->
+        <!-- <div class="modal">
+            <div class="modal__overlay"></div>
+
+            <div class="modal__body"> -->
+                    
+                <!-- Sign Up form -->
+                <!-- <div class="auth-form">
+
+                    <div class="auth-form__container">
+                        <div class="auth-form__header">
+                            <h3 class="auth-form__heading">Sign Up</h3>
+                            <span class="auth-form__switch-btn">Log In</span>
+                        </div>
+                        
+                        <div class="auth-form__form">
+                            <div class="auth-form__group">
+                                <input type="text" class="auth-form__input" placeholder="Your Email">
+                            </div>
+                            <div class="auth-form__group">
+                                <input type="password" class="auth-form__input" placeholder="Your Passwword">
+                            </div>
+                            <div class="auth-form__group">
+                                <input type="password" class="auth-form__input" placeholder="Confirm Your Passwword ">
+                            </div>
+                        </div>
+    
+                        <div class="auth-form__aside">
+                            <p class="auth-form__policy-text">
+                                By registering, you're confirming your agreement with TRITECH CNC's terms
+                                <a href="" class="auth-form__text-link">Terms of Service</a> &
+                                <a href="" class="auth-form__text-link">Privacy Policy</a>
+                            </p>
+                        </div>
+    
+                        <div class="auth-form__controls">
+                            <button class="btn btn--normal auth-form__controls-return">RETURN</button>
+                            <button class="btn btn--primary">SIGN UP</button>
+                        </div>
+                    </div> 
+
+                    <div class="auth-form__socials">
+                        <a href="" class="auth-form__socials--facebook btn btn--size-s btn--with-icon">
+                            <i class="auth-form__socials-icon material-icons">facebook</i>
+                            <span class="auth-form__socials-title">
+                                Connect with Facebook
+                            </span>
+                        </a> 
+                        <a href="" class="auth-form__socials--google btn btn--size-s btn--with-icon">
+                            <i class="auth-form__socials-icon material-icons">mail</i>
+                            <span class="auth-form__socials-title">
+                                Connect with Google
+                            </span>
+                        </a> 
+                    </div>
+
+                </div> -->
+
+                <!-- Log In form -->
+                <!-- <div class="auth-form">
+
+                    <div class="auth-form__container">
+                        <div class="auth-form__header">
+                            <h3 class="auth-form__heading">Log In</h3>
+                            <span class="auth-form__switch-btn">Sign Up</span>
+                        </div>
+                        
+                        <div class="auth-form__form">
+                            <div class="auth-form__group">
+                                <input type="text" class="auth-form__input" placeholder="Your Email">
+                            </div>
+                            <div class="auth-form__group">
+                                <input type="password" class="auth-form__input" placeholder="Your Passwword">
+                            </div>
+                        </div>
+    
+                        <div class="auth-form__aside">
+                            <div class="auth--form__help">
+                                <a href="" class="auth-form__help-link auth-form__help-forgot">Forgot Password</a>
+                                <span class="auth-form__help-separate"></span>
+                                <a href="" class="auth-form__help-link ">Need Help ?</a>
+                            </div>
+                        </div>
+    
+                        <div class="auth-form__controls">
+                            <button class="btn btn--normal auth-form__controls-return">RETURN</button>
+                            <button class="btn btn--primary">Log In</button>
+                        </div>
+                    </div> 
+
+                    <div class="auth-form__socials">
+                        <a href="" class="auth-form__socials--facebook btn btn--size-s btn--with-icon">
+                            <i class="auth-form__socials-icon material-icons">facebook</i>
+                            <span class="auth-form__socials-title">
+                                Login with Facebook
+                            </span>
+                        </a> 
+                        <a href="" class="auth-form__socials--google btn btn--size-s btn--with-icon">
+                            <img src="https://pixlok.com/wp-content/uploads/2021/04/Google-Icon-PNG.jpg" alt="" class="auth-form__socials-icon auth-form__socials-icon-google">
+                            <span class="auth-form__socials-title auth-form__socials-title-google">
+                                Login with Google
+                            </span>
+                        </a> 
+                    </div>
+
+                </div> -->
+            </div>
+        </div>
+    </body>
+<script src="./java/script.js"></script>
+</html>
