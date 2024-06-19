@@ -326,10 +326,11 @@ void StartUART_TX(void *argument)
 {
   /* USER CODE BEGIN StartUART_TX */
   /* Infinite loop */
-  //UART_transmit_init();
+  UART_transmit_init();
   for(;;)
   {
-    osDelay(1);
+    osDelay(1000);  // Delay 1000 milliseconds (1 second)
+    send_uart_data();  // Send data every second
   }
   /* USER CODE END StartUART_TX */
 }
@@ -346,7 +347,6 @@ void StartUART_RX(void *argument) {
     /* USER CODE BEGIN StartUART_RX */
     /* Initialize UART receive in DMA mode */
     UART_RECEIVE_Init();
-
     /* Infinite loop */
     for(;;)
     {
@@ -418,4 +418,3 @@ void MX_FREERTOS_Init(void)
 
 }
 /* USER CODE END Application */
-

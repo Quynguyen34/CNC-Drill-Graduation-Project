@@ -12,6 +12,7 @@
 
 /* Khai báo các hàm chuẩn bị và truyền dữ liệu */
 void prepare_data(void);
+void send_uart_data(void);
 void UART_transmit_init(void);
 
 /* Khai báo các hàm nhận dữ liệu UART */

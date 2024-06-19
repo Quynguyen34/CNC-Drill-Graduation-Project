@@ -1,3 +1,30 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file    cli.c
+  * @brief   This file provides code for the configuration
+  *          of the USART instances.
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  * Created on: Jan 21, 2024
+  * Author: Nguyen Ngoc Quy (Wis)
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/*
+ * cli.c
+ *
+ *  Created on: Jan 21, 2024
+ *  Author: Nguyen Ngoc Quy (Wis)
+ */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
@@ -28,52 +55,55 @@ typedef struct CoordinateNode {
 
 CoordinateNode *head = NULL;
 
-struct packetData {
-    char voltage_data[10];
-    char current_data[10];
-    char temperature_data[10];
-    char power_data[10];
-};
+typedef struct {
+    char voltage_data[20];
+    char current_data[20];
+    char temperature_data[20];
+    char power_data[20];
+} packetData;
 
-struct packetData transmitData;
-uint8_t buffer[50];
+packetData transmitData;
+uint8_t buffer[100];
 uint8_t rxBuffer[256];
 char cmd[256];
 uint16_t buffer_counter = 0;
 uint8_t cmdstate = 0;
 float uart_X, uart_Y, uart_Z;
 char ip_config[20];
+
+/* UART TX BEGIN */
+/* UART TX BEGIN */
 void prepare_data(void) {
-    sprintf(transmitData.voltage_data, "%0.2f", LCD_adc.voltage);
-    sprintf(transmitData.current_data, "%0.2f", LCD_adc.current);
-    sprintf(transmitData.temperature_data, "%0.2f", LCD_adc.temp);
-    sprintf(transmitData.power_data, "%0.2f", LCD_adc.power);
+    snprintf(transmitData.voltage_data, sizeof(transmitData.voltage_data), "%.2f", LCD_adc.voltage);
+    snprintf(transmitData.current_data, sizeof(transmitData.current_data), "%.2f", LCD_adc.current);
+    snprintf(transmitData.temperature_data, sizeof(transmitData.temperature_data), "%.2f", LCD_adc.temp);
+    snprintf(transmitData.power_data, sizeof(transmitData.power_data), "%.2f", LCD_adc.power);
 }
 
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
-    if (huart->Instance == USART2) {
-        prepare_data();
-        int len = snprintf((char *)buffer, sizeof(buffer),
-                           "%s,%s,%s,%s\n",
-                           transmitData.voltage_data,
-                           transmitData.current_data,
-                           transmitData.temperature_data,
-                           transmitData.power_data);
-        HAL_UART_Transmit_IT(&huart2, buffer, len);
-    }
-}
-
-void UART_transmit_init(void) {
+void send_uart_data(void) {
     prepare_data();
     int len = snprintf((char *)buffer, sizeof(buffer),
-                       "%s,%s,%s,%s\n",
+                       "{\"voltage\":%s,\"current\":%s,\"temperature\":%s,\"power\":%s}\n",
                        transmitData.voltage_data,
                        transmitData.current_data,
                        transmitData.temperature_data,
                        transmitData.power_data);
-    HAL_UART_Transmit_IT(&huart2, buffer, len);
+    HAL_UART_Transmit_IT(&huart2, (uint8_t *)buffer, len);
 }
 
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == USART2) {
+        // Do nothing, the timer will call send_uart_data to send data
+    }
+}
+
+void UART_transmit_init(void) {
+    send_uart_data();
+}
+
+/* UART TX END */
+
+/* UART RX BEGIN */
 void UART_RECEIVE_Init(void) {
     HAL_UART_Receive_DMA(&huart2, rxBuffer, 1);  // Nhận từng byte một
 }
@@ -245,3 +275,4 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         HAL_UART_Receive_DMA(&huart2, rxBuffer, 1);
     }
 }
+/* UART RX BEGIN */
