@@ -24,6 +24,7 @@
  *  Author: Nguyen Ngoc Quy (Wis)
  */
 /* USER CODE END Header */
+/* USER CODE BEGIN Includes */
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 #include "task.h"
@@ -44,34 +45,16 @@
 #include "lcd.h"
 #include "menulcd.h"
 #include "cli.h"
-extern osMutexId_t lcdMutexHandle;
-extern osSemaphoreId_t uartRxSemaphoreHandle;
-extern UART_HandleTypeDef huart2;
+/* USER CODE END Includes */
 
-typedef struct CoordinateNode {
-    float x, y, z;
-    struct CoordinateNode *next;
-} CoordinateNode;
-
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
 CoordinateNode *head = NULL;
-
-typedef struct {
-    char voltage_data[20];
-    char current_data[20];
-    char temperature_data[20];
-    char power_data[20];
-} packetData;
-
 packetData transmitData;
-uint8_t buffer[100];
-uint8_t rxBuffer[256];
-char cmd[256];
-uint16_t buffer_counter = 0;
-uint8_t cmdstate = 0;
-float uart_X, uart_Y, uart_Z;
-char ip_config[20];
+Coordinate Coor;
+Data_Buffer SaveData;
+/* USER CODE END PTD */
 
-/* UART TX BEGIN */
 /* UART TX BEGIN */
 void prepare_data(void) {
     snprintf(transmitData.voltage_data, sizeof(transmitData.voltage_data), "%.2f", LCD_adc.voltage);
@@ -82,13 +65,13 @@ void prepare_data(void) {
 
 void send_uart_data(void) {
     prepare_data();
-    int len = snprintf((char *)buffer, sizeof(buffer),
+    int len = snprintf((char *)SaveData.buffer, sizeof(SaveData.buffer),
                        "{\"voltage\":%s,\"current\":%s,\"temperature\":%s,\"power\":%s}\n",
                        transmitData.voltage_data,
                        transmitData.current_data,
                        transmitData.temperature_data,
                        transmitData.power_data);
-    HAL_UART_Transmit_IT(&huart2, (uint8_t *)buffer, len);
+    HAL_UART_Transmit_IT(&huart2, (uint8_t *)SaveData.buffer, len);
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
@@ -105,7 +88,7 @@ void UART_transmit_init(void) {
 
 /* UART RX BEGIN */
 void UART_RECEIVE_Init(void) {
-    HAL_UART_Receive_DMA(&huart2, rxBuffer, 1);  // Nhận từng byte một
+    HAL_UART_Receive_DMA(&huart2, SaveData.rxBuffer, 1);  // Nhận từng byte một
 }
 
 void start_command(void) {
@@ -196,11 +179,11 @@ void move_to_coordinates(void) {
     CoordinateNode *current = head;
 
     while (current != NULL) {
-        uart_X = current->x;
-        uart_Y = current->y;
-        uart_Z = current->z;
-        MoveToPosXY(uart_X, uart_Y);
-        MoveToPosZ(uart_Z);
+    	Coor.coordinate_X = current->x;
+    	Coor.coordinate_Y = current->y;
+    	Coor.coordinate_Z = current->z;
+        MoveToPosXY(Coor.coordinate_X, Coor.coordinate_Y);
+        MoveToPosZ(Coor.coordinate_Z);
         current = current->next;
     }
 }
@@ -223,56 +206,56 @@ void process_goto_command(char *cmd) {
 }
 
 void UART_rx_process(void) {
-    if (cmdstate) {
-        cmdstate = 0;
+    if (SaveData.cmdstate) {
+    	SaveData.cmdstate = 0;
 
-        if (strcmp(cmd, "START") == 0) {
+        if (strcmp(SaveData.cmd, "START") == 0) {
             start_command();
-        } else if (strcmp(cmd, "STOP") == 0) {
+        } else if (strcmp(SaveData.cmd, "STOP") == 0) {
             stop_command();
-        } else if (strcmp(cmd, "RESET") == 0) {
+        } else if (strcmp(SaveData.cmd, "RESET") == 0) {
             reset_command();
-        } else if (strcmp(cmd, "ON") == 0) {
+        } else if (strcmp(SaveData.cmd, "ON") == 0) {
             drill_on_command();
-        } else if (strcmp(cmd, "OFF") == 0) {
+        } else if (strcmp(SaveData.cmd, "OFF") == 0) {
             drill_off_command();
-        } else if (strcmp(cmd, "LOW") == 0) {
+        } else if (strcmp(SaveData.cmd, "LOW") == 0) {
             low_command();
-        } else if (strcmp(cmd, "MEDIUM") == 0) {
+        } else if (strcmp(SaveData.cmd, "MEDIUM") == 0) {
             medium_command();
-        } else if (strcmp(cmd, "HIGH") == 0) {
+        } else if (strcmp(SaveData.cmd, "HIGH") == 0) {
             high_command();
-        } else if (strncmp(cmd, "GOTO", 4) == 0) {
-            process_goto_command(cmd);
+        } else if (strncmp(SaveData.cmd, "GOTO", 4) == 0) {
+            process_goto_command(SaveData.cmd);
         } else {
-        	process_ip_address(cmd);
+        	process_ip_address(SaveData.cmd);
         }
     }
 }
 
 void process_ip_address(char *ip_address) {
     // Store the received IP address
-    strncpy(ip_config, ip_address, sizeof(ip_config) - 1);
-    ip_config[sizeof(ip_config) - 1] = '\0';  // Ensure null termination
+    strncpy(SaveData.ip_config, ip_address, sizeof(SaveData.ip_config) - 1);
+    SaveData.ip_config[sizeof(SaveData.ip_config) - 1] = '\0';  // Ensure null termination
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     static uint8_t index = 0;
 
     if (huart->Instance == USART2) {
-        if (rxBuffer[0] != '\r' && rxBuffer[0] != '\n') {
-            if (index < sizeof(cmd) - 1) {
-                cmd[index++] = rxBuffer[0];
+        if (SaveData.rxBuffer[0] != '\r' && SaveData.rxBuffer[0] != '\n') {
+            if (index < sizeof(SaveData.cmd) - 1) {
+            	SaveData.cmd[index++] = SaveData.rxBuffer[0];
             }
-        } else if (rxBuffer[0] == '\r') {
+        } else if (SaveData.rxBuffer[0] == '\r') {
             if (index > 0) {
-                cmd[index] = '\0';
+            	SaveData.cmd[index] = '\0';
                 index = 0;
-                cmdstate = 1;
+                SaveData.cmdstate = 1;
                 osSemaphoreRelease(uartRxSemaphoreHandle);
             }
         }
-        HAL_UART_Receive_DMA(&huart2, rxBuffer, 1);
+        HAL_UART_Receive_DMA(&huart2, SaveData.rxBuffer, 1);
     }
 }
 /* UART RX BEGIN */

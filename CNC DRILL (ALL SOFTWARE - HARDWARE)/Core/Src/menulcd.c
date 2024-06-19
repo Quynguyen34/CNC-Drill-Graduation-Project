@@ -28,24 +28,25 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os.h"
 #include "stdio.h"
 #include "string.h"
-#include "stdbool.h"
 #include "stdlib.h"
 #include "stdint.h"
-#include "math.h"
-#include "i2c.h"
-#include "lcd.h"
-#include "gpio.h"
-#include "adc.h"
+#include "stdbool.h"
 #include "tim.h"
 #include "usart.h"
-#include "menulcd.h"
-#include "Inverse_cnc.h"
+#include "gpio.h"
+#include "adc.h"
+#include "i2c.h"
 #include "AccelStepper.h"
+#include "Inverse_cnc.h"
+#include "lcd.h"
+#include "menulcd.h"
+#include "cli.h"
 
 /* USER CODE END Includes */
 
@@ -57,7 +58,6 @@ Kalman_filter kalman_fil_curr;
 Kalman_filter kalman_fil_volt;
 Button button;
 State_button state;
-extern char ip_config[20];
 /* USER CODE END PM */
 
 /* USER CODE BEGIN 1 */
@@ -1033,5 +1033,5 @@ void StartProgram(void){
     lcd_put_cur(2, 0);
     lcd_send_string("IP ADD:");
     lcd_put_cur(2, 8);
-    lcd_send_string(ip_config);
+    lcd_send_string(SaveData.ip_config);
 }

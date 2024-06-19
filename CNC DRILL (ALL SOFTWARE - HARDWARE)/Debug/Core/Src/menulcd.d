@@ -43,10 +43,11 @@ Core/Src/menulcd.o: ../Core/Src/menulcd.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/lcd.h \
- ../Core/Inc/gpio.h ../Core/Inc/adc.h ../Core/Inc/tim.h \
- ../Core/Inc/usart.h ../Core/Inc/menulcd.h ../Core/Inc/Inverse_cnc.h \
- ../Core/Inc/AccelStepper.h ../Core/Inc/gpio.h ../Core/Inc/tim.h
+ ../Core/Inc/tim.h ../Core/Inc/main.h ../Core/Inc/usart.h \
+ ../Core/Inc/gpio.h ../Core/Inc/adc.h ../Core/Inc/i2c.h \
+ ../Core/Inc/AccelStepper.h ../Core/Inc/gpio.h ../Core/Inc/tim.h \
+ ../Core/Inc/Inverse_cnc.h ../Core/Inc/lcd.h ../Core/Inc/menulcd.h \
+ ../Core/Inc/cli.h ../Core/Inc/usart.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -92,15 +93,17 @@ Core/Src/menulcd.o: ../Core/Src/menulcd.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
-../Core/Inc/i2c.h:
+../Core/Inc/tim.h:
 ../Core/Inc/main.h:
-../Core/Inc/lcd.h:
+../Core/Inc/usart.h:
 ../Core/Inc/gpio.h:
 ../Core/Inc/adc.h:
-../Core/Inc/tim.h:
-../Core/Inc/usart.h:
-../Core/Inc/menulcd.h:
-../Core/Inc/Inverse_cnc.h:
+../Core/Inc/i2c.h:
 ../Core/Inc/AccelStepper.h:
 ../Core/Inc/gpio.h:
 ../Core/Inc/tim.h:
+../Core/Inc/Inverse_cnc.h:
+../Core/Inc/lcd.h:
+../Core/Inc/menulcd.h:
+../Core/Inc/cli.h:
+../Core/Inc/usart.h:

@@ -1,21 +1,78 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file    cli.h
+  * @brief   This file provides code for the configuration
+  *          of the USART instances.
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  * Created on: Jan 21, 2024
+  * Author: Nguyen Ngoc Quy (Wis)
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 /*
  * cli.h
  *
- *  Created on: May 8, 2024
- *      Author: Wis
+ *  Created on: Jan 21, 2024
+ *  Author: Nguyen Ngoc Quy (Wis)
  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
 
 #ifndef INC_CLI_H_
 #define INC_CLI_H_
 
 #include "usart.h"
 
-/* Khai báo các hàm chuẩn bị và truyền dữ liệu */
+/* Config fucntion */
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+extern osMutexId_t lcdMutexHandle;
+extern osSemaphoreId_t uartRxSemaphoreHandle;
+extern UART_HandleTypeDef huart2;
+
+typedef struct {
+    char voltage_data[20];
+    char current_data[20];
+    char temperature_data[20];
+    char power_data[20];
+} packetData;
+extern packetData transmitData;
+
+typedef struct CoordinateNode {
+    float x, y, z;
+    struct CoordinateNode *next;
+} CoordinateNode;
+extern CoordinateNode *head;
+
+typedef struct {
+	float coordinate_X;
+	float coordinate_Y;
+	float coordinate_Z;
+}Coordinate;
+extern Coordinate Coor;
+typedef struct {
+	uint8_t buffer[100];
+	uint8_t rxBuffer[256];
+	char cmd[256];
+	char ip_config[20];
+	uint8_t cmdstate;
+}Data_Buffer;
+extern Data_Buffer SaveData;
+/* USER CODE END PTD */
+
 void prepare_data(void);
 void send_uart_data(void);
 void UART_transmit_init(void);
 
-/* Khai báo các hàm nhận dữ liệu UART */
+/* Config fucntion */
 void UART_RECEIVE_Init(void);
 void start_command(void);
 void stop_command(void);
@@ -32,7 +89,7 @@ void process_goto_command(char *cmd);
 void process_ip_address(char *ip_address);
 void UART_rx_process(void);
 
-/* Khai báo các hàm callback của UART */
+/* Callback UART */
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart);
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 
