@@ -263,7 +263,6 @@ void StartDefaultTask(void *argument)
   {
       if (state.start_press) {
           move_to_coordinates();
-
       }
 
     osDelay(1);

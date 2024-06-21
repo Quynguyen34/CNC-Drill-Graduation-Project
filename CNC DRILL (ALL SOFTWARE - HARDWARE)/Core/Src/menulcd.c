@@ -236,7 +236,7 @@ void temperature_messure(void)
     {
         LCD_adc.T = (LCD_adc.voltage * LCD_adc.C) / LCD_adc.power;
         LCD_adc.joule = LCD_adc.power * LCD_adc.T;
-        LCD_adc.temp = LCD_adc.joule / (LCD_adc.m * 20);
+        //LCD_adc.temp = LCD_adc.joule / (LCD_adc.m * 20);
         LCD_adc.Temp = ((3.3 * kalman_fil_curr.filter_kal / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
     }
 }

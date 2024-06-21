@@ -413,7 +413,71 @@ document.addEventListener("DOMContentLoaded", function() {
         points: [{ id: '1', x: 'voltage', y: 0 }]
       }]
     });
+
+    // Gauge for temperature
+    var chartTemperature = JSC.chart('chartDiv3', {
+      title: {
+        label: {
+          text: 'Temperature',
+          style: {
+            fontSize: 15,
+            fontWeight: 'bold',
+            color: '#4e8bf4'
+          }
+        },
+        position: 'center',
+        align: 'center'
+      },
+      debug: true,
+      type: 'gauge',
+      animation_duration: 1000,
+      legend_visible: false,
+      xAxis: { spacingPercentage: 0.25 },
+      yAxis: {
+        defaultTick: {
+          padding: -5,
+          label_style_fontSize: '14px'
+        },
+        line: {
+          width: 9,
+          color: 'smartPalette',
+          breaks_gap: 0.06
+        },
+        scale_range: [0, 200]
+      },
+      palette: {
+        pointValue: '{%value/200}',
+        colors: ['LightBlue', 'RoyalBlue', 'DarkBlue']
+      },
+      defaultTooltip_enabled: false,
+      defaultSeries: {
+        angle: { sweep: 180 },
+        shape: {
+          innerSize: '70%',
+          label: {
+            text: '<span color="%color">{%sum:n1}</span><br/><span color="#4e8bf4" fontSize="20px" fontWeight="bold">℃</span>',
+            style_fontSize: '46px',
+            verticalAlign: 'middle'
+          }
+        }
+      },
+      series: [{
+        type: 'column roundcaps',
+        points: [{ id: '1', x: 'power', y: 0 }]
+      }]
+    });
   
+    function requestData(url, chart, pointId) {
+      fetch(url)
+        .then(response => response.text()) // Change to text() to parse plain text
+        .then(data => {
+          chart.series(0).options({
+            points: [{ id: pointId, x: pointId, y: parseFloat(data) }] // Convert string to float
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+
     // Gauge for power
     var chartPower = JSC.chart('chartDiv', {
       title: {
@@ -467,70 +531,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }]
     });
   
-    // Gauge for temperature
-    var chartTemperature = JSC.chart('chartDiv3', {
-      title: {
-        label: {
-          text: 'Temperature',
-          style: {
-            fontSize: 15,
-            fontWeight: 'bold',
-            color: '#4e8bf4'
-          }
-        },
-        position: 'center',
-        align: 'center'
-      },
-      debug: true,
-      type: 'gauge',
-      animation_duration: 1000,
-      legend_visible: false,
-      xAxis: { spacingPercentage: 0.25 },
-      yAxis: {
-        defaultTick: {
-          padding: -5,
-          label_style_fontSize: '14px'
-        },
-        line: {
-          width: 9,
-          color: 'smartPalette',
-          breaks_gap: 0.06
-        },
-        scale_range: [0, 200]
-      },
-      palette: {
-        pointValue: '{%value/200}',
-        colors: ['LightBlue', 'RoyalBlue', 'DarkBlue']
-      },
-      defaultTooltip_enabled: false,
-      defaultSeries: {
-        angle: { sweep: 180 },
-        shape: {
-          innerSize: '70%',
-          label: {
-            text: '<span color="%color">{%sum:n1}</span><br/><span color="#4e8bf4" fontSize="20px" fontWeight="bold">W</span>',
-            style_fontSize: '46px',
-            verticalAlign: 'middle'
-          }
-        }
-      },
-      series: [{
-        type: 'column roundcaps',
-        points: [{ id: '1', x: 'power', y: 0 }]
-      }]
-    });
-  
-    function requestData(url, chart, pointId) {
-      fetch(url)
-        .then(response => response.text()) // Change to text() to parse plain text
-        .then(data => {
-          chart.series(0).options({
-            points: [{ id: pointId, x: pointId, y: parseFloat(data) }] // Convert string to float
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    }
-  
     // Set up intervals to fetch data
     setInterval(function() {
       requestData("/voltage", chartVoltage, 'voltage');
@@ -541,12 +541,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 500);
 
     setInterval(function() {
-      requestData("/power", chartPower, 'power');
-    }, 1000);
+      requestData("/temperature", chartTemperature, 'temperature');
+    }, 500);
 
     setInterval(function() {
-      requestData("/temperature", chartTemperature, 'temperature');
-    }, 5000);
+      requestData("/power", chartPower, 'power');
+    }, 500);
   
 });
   
@@ -608,6 +608,32 @@ document.addEventListener("DOMContentLoaded", function() {
       credits: { enabled: false }
   });
 
+  
+  // Power chart
+  var chartP = new Highcharts.Chart({
+    chart: { renderTo: 'chart-power' },
+    title: { text: 'Power' },
+    series: [{
+        showInLegend: false,
+        data: []
+    }],
+    plotOptions: {
+        line: { 
+            animation: false,
+            dataLabels: { enabled: true }
+        },
+        series: { color: '#FF6347' } // Màu cho công suất
+    },
+    xAxis: { 
+        type: 'datetime',
+        dateTimeLabelFormats: { second: '%H:%M:%S' }
+    },
+    yAxis: {
+        title: { text: 'Power (W)' }
+    },
+    credits: { enabled: false }
+  });
+
   // Temperature chart
   var chartT = new Highcharts.Chart({
       chart: { renderTo: 'chart-temperature' },
@@ -628,32 +654,7 @@ document.addEventListener("DOMContentLoaded", function() {
           dateTimeLabelFormats: { second: '%H:%M:%S' }
       },
       yAxis: {
-          title: { text: 'Temperature (Celsius)' }
-      },
-      credits: { enabled: false }
-  });
-
-  // Power chart
-  var chartP = new Highcharts.Chart({
-      chart: { renderTo: 'chart-power' },
-      title: { text: 'Power' },
-      series: [{
-          showInLegend: false,
-          data: []
-      }],
-      plotOptions: {
-          line: { 
-              animation: false,
-              dataLabels: { enabled: true }
-          },
-          series: { color: '#FF6347' } // Màu cho công suất
-      },
-      xAxis: { 
-          type: 'datetime',
-          dateTimeLabelFormats: { second: '%H:%M:%S' }
-      },
-      yAxis: {
-          title: { text: 'Power (W)' }
+          title: { text: 'Temperature (℃)' }
       },
       credits: { enabled: false }
   });
@@ -665,17 +666,19 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(function() {
       requestData("/current", chartC);
   }, 500);
+
+  setInterval(function() {
+    requestData("/power", chartP);
+  }, 500);
+
   setInterval(function() {
       requestData("/temperature", chartT);
-  }, 5000);
-  setInterval(function() {
-      requestData("/power", chartP);
-  }, 1000);
+  }, 500);
 
   // Function to request data
   function requestData(endpoint, chart) {
       var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
+      xhttp.onreadystatechange = function() { 
           if (this.readyState == 4 && this.status == 200) {
               var x = (new Date()).getTime(),
                   y = parseFloat(this.responseText);
