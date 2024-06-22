@@ -4,8 +4,8 @@
 ../Core/Src/freertos.c:169:6:MoveToPosXY	112	static
 ../Core/Src/freertos.c:197:6:MoveToPosZ	88	static
 ../Core/Src/freertos.c:243:6:StartDefaultTask	24	static
-../Core/Src/freertos.c:282:6:StartADC	16	static
-../Core/Src/freertos.c:302:6:StartLCD	16	static
-../Core/Src/freertos.c:325:6:StartUART_TX	16	static
-../Core/Src/freertos.c:346:6:StartUART_RX	16	static
-../Core/Src/freertos.c:371:6:MX_FREERTOS_Init	8	static
+../Core/Src/freertos.c:281:6:StartADC	16	static
+../Core/Src/freertos.c:301:6:StartLCD	16	static
+../Core/Src/freertos.c:324:6:StartUART_TX	16	static
+../Core/Src/freertos.c:345:6:StartUART_RX	16	static
+../Core/Src/freertos.c:370:6:MX_FREERTOS_Init	8	static

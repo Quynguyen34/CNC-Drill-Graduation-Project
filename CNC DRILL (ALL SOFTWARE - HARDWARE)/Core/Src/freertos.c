@@ -243,7 +243,7 @@ void MoveToPosZ(float z) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-  HOME();
+  //HOME();
   initializeCNC_pos(&CNC_pos);
   Accel_Stepper_SetPin(&Stepper1, step_1_GPIO_Port, step_1_pin, dir_1_GPIO_Port, dir_1_pin);
   Accel_Stepper_SetPin(&Stepper2, step_2_GPIO_Port, step_2_pin, dir_2_GPIO_Port, dir_2_pin);

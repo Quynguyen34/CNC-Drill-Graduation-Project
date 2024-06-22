@@ -74,7 +74,7 @@ Button* buttons[] = {&upButton, &downButton, &backButton, &selectButton, &resetB
 const int numButtons = sizeof(buttons) / sizeof(Button*);
 
 float l,m,k;
-
+extern char ip_config[20];
 void initialize_LCD(LCD_adc_t *lcd)
 {
 	lcd->sensitivity = 0.066;
@@ -228,17 +228,11 @@ void power_messure(void)
 
 void temperature_messure(void)
 {
-    if (LCD_adc.power == 0)
-    {
-        LCD_adc.temp = 0;
-    }
-    else
-    {
+
         LCD_adc.T = (LCD_adc.voltage * LCD_adc.C) / LCD_adc.power;
         LCD_adc.joule = LCD_adc.power * LCD_adc.T;
         //LCD_adc.temp = LCD_adc.joule / (LCD_adc.m * 20);
         LCD_adc.Temp = ((3.3 * kalman_fil_curr.filter_kal / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
-    }
 }
 
 void startADC(void)
@@ -1010,7 +1004,7 @@ void resetProgram(void)
      * code here
      *
      * */
-    HOME();
+    //HOME();
     // Start display lcd
     lcd_clear();
     lcd_put_cur(1, 2);

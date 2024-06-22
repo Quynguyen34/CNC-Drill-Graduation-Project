@@ -534,19 +534,19 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set up intervals to fetch data
     setInterval(function() {
       requestData("/voltage", chartVoltage, 'voltage');
-    }, 500);
+    }, 100);
   
     setInterval(function() {
       requestData("/current", chartCurrent, 'current');
-    }, 500);
+    }, 100);
 
     setInterval(function() {
       requestData("/temperature", chartTemperature, 'temperature');
-    }, 500);
+    }, 100);
 
     setInterval(function() {
       requestData("/power", chartPower, 'power');
-    }, 500);
+    }, 100);
   
 });
   
@@ -662,18 +662,18 @@ document.addEventListener("DOMContentLoaded", function() {
   // Update intervals
   setInterval(function() {
       requestData("/voltage", chartV);
-  }, 500);
+  }, 100);
   setInterval(function() {
       requestData("/current", chartC);
-  }, 500);
+  }, 100);
 
   setInterval(function() {
     requestData("/power", chartP);
-  }, 500);
+  }, 100);
 
   setInterval(function() {
       requestData("/temperature", chartT);
-  }, 500);
+  }, 100);
 
   // Function to request data
   function requestData(endpoint, chart) {
@@ -992,5 +992,4 @@ syncInputs(yRange, yNumber);
 const zRange = document.getElementById('z-position');
 const zNumber = document.getElementById('z-value');
 syncInputs(zRange, zNumber);
-
 

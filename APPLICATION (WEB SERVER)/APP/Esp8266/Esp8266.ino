@@ -10,8 +10,8 @@
 
 SoftwareSerial espSerial(RX_PIN, TX_PIN);  // Create SoftwareSerial object for UART communication
 
-const char* wifi_ssid = "UTE.Aruba325";
-const char* wifi_password = "vnhcmute";
+const char* wifi_ssid = "Wis";
+const char* wifi_password = "khonglammadoicoan";
 
 AsyncWebServer server(80);
 
@@ -166,31 +166,15 @@ void handleCommand(AsyncWebServerRequest *request, const String& command) {
   request->send(200, "text/plain", "Command sent: " + command);
 }
 
-void handleUART() {
-  while (espSerial.available()) {
-    char c = espSerial.read();
-    if (isPrintable(c) || c == '\n' || c == '\r') {
-      if (c == '\n' || c == '\r') {
-        if (dataIndex > 0) {
-          buffer[dataIndex] = '\0';
-          Serial.print("Received data: ");
-          Serial.println((char*)buffer);
-          processReceivedData((char*)buffer);
-          dataIndex = 0;
-        }
-      } else {
-        if (dataIndex < sizeof(buffer) - 1) {
-          buffer[dataIndex++] = c;
-        } else {
-          Serial.println("Buffer overflow, data reset");
-          dataIndex = 0;
-        }
-      }
-    }
+void processReceivedData(char* data) {
+  if (strcmp(data, "IP") == 0) {
+    espSerial.println(WiFi.localIP());
+  } else {
+    processJsonData(data);
   }
 }
 
-void processReceivedData(char* data) {
+void processJsonData(char* data) {
   while (char* jsonStart = strstr(data, "{")) {
     char* jsonEnd = strstr(jsonStart, "}");
     if (jsonEnd) {
@@ -222,6 +206,31 @@ void processReceivedData(char* data) {
     }
   }
 }
+
+void handleUART() {
+  while (espSerial.available()) {
+    char c = espSerial.read();
+    if (isPrintable(c) || c == '\n' || c == '\r') {
+      if (c == '\n' || c == '\r') {
+        if (dataIndex > 0) {
+          buffer[dataIndex] = '\0';
+          Serial.print("Received data: ");
+          Serial.println((char*)buffer);
+          processReceivedData((char*)buffer);
+          dataIndex = 0;
+        }
+      } else {
+        if (dataIndex < sizeof(buffer) - 1) {
+          buffer[dataIndex++] = c;
+        } else {
+          Serial.println("Buffer overflow, data reset");
+          dataIndex = 0;
+        }
+      }
+    }
+  }
+}
+
 
 void checkSPIFFSFiles() {
   const char* files[] = {

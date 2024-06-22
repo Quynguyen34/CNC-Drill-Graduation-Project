@@ -92,6 +92,7 @@ void UART_RECEIVE_Init(void) {
 }
 
 void start_command(void) {
+	HAL_UART_Transmit_IT(&huart2, (uint8_t*)"IP\n", 3);
 	handle_start_button_press();
 }
 
