@@ -36,7 +36,7 @@
 ../Core/Src/menulcd.c:874:6:handle_select_button_press	15
 ../Core/Src/menulcd.c:921:6:handle_reset_button_press	2
 ../Core/Src/menulcd.c:931:6:handle_start_button_press	2
-../Core/Src/menulcd.c:942:6:handle_stop_button_press	2
-../Core/Src/menulcd.c:954:6:resetProgram	1
-../Core/Src/menulcd.c:1014:6:StopProgram	1
-../Core/Src/menulcd.c:1023:6:StartProgram	1
+../Core/Src/menulcd.c:943:6:handle_stop_button_press	2
+../Core/Src/menulcd.c:955:6:resetProgram	1
+../Core/Src/menulcd.c:1015:6:StopProgram	1
+../Core/Src/menulcd.c:1024:6:StartProgram	1

@@ -18,20 +18,28 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "FreeRTOS.h"
+#include "task.h"
 #include "main.h"
-#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "cmsis_os.h"
+#include "stdio.h"
+#include "string.h"
+#include "stdlib.h"
+#include "stdint.h"
+#include "stdbool.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 #include "adc.h"
 #include "i2c.h"
 #include "AccelStepper.h"
+#include "Inverse_cnc.h"
 #include "lcd.h"
-#include "cli.h"
 #include "menulcd.h"
+#include "cli.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,8 +57,7 @@
 
 /* USER CODE END PM */
 
-/* Private variables ---------------------------------------------------------*/
-
+/* Private variables ---------------------------------------------------------*/\
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -97,8 +104,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_ADC_Init();
   MX_DMA_UART_Init();
+  MX_DMA_ADC_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();
@@ -116,6 +123,7 @@ int main(void)
   osKernelInitialize();
 
   MX_FREERTOS_Init();
+
   /* Start scheduler */
   osKernelStart();
 

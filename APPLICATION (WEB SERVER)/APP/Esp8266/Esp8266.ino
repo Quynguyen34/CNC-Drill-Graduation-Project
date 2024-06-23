@@ -1,4 +1,3 @@
-#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -10,8 +9,8 @@
 
 SoftwareSerial espSerial(RX_PIN, TX_PIN);  // Create SoftwareSerial object for UART communication
 
-const char* wifi_ssid = "Wis";
-const char* wifi_password = "khonglammadoicoan";
+const char* wifi_ssid = "UTE.Aruba325";
+const char* wifi_password = "vnhcmute";
 
 AsyncWebServer server(80);
 
@@ -63,10 +62,14 @@ void connectToWiFi() {
   Serial.println(WiFi.localIP());
   wifiConnected = true;
   espSerial.begin(9600);
-  espSerial.println(WiFi.localIP());
 }
 
 void setupRoutes() {
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/index1.html", "text/html");
+  });
+
+  // Serve additional HTML files
   server.on("/index1.html", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index1.html", "text/html");
   });
@@ -76,9 +79,24 @@ void setupRoutes() {
   server.on("/index3.html", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index3.html", "text/html");
   });
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/index1.html", "text/html");
+
+  // Serve CSS files
+  server.on("/css/main.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/css/main.css", "text/css");
   });
+  server.on("/css/base.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/css/base.css", "text/css");
+  });
+  server.on("/css/responsive.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/css/responsive.css", "text/css");
+  });
+
+  // Serve JavaScript files
+  server.on("/java/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/java/script.js", "text/javascript");
+  });
+
+  // Serve sensor data
   server.on("/voltage", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", String(voltage, 2).c_str());
   });
@@ -91,18 +109,8 @@ void setupRoutes() {
   server.on("/power", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", String(power, 2).c_str());
   });
-  server.on("/css/main.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/css/main.css", "text/css");
-  });
-  server.on("/css/base.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/css/base.css", "text/css");
-  });
-  server.on("/css/responsive.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/css/responsive.css", "text/css");
-  });
-  server.on("/java/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/java/script.js", "text/javascript");
-  });
+
+  // Command handling routes
   server.on("/start", HTTP_POST, [](AsyncWebServerRequest *request){
     if (request->hasParam("data", true)) {
       String data = request->getParam("data", true)->value();
@@ -168,42 +176,30 @@ void handleCommand(AsyncWebServerRequest *request, const String& command) {
 
 void processReceivedData(char* data) {
   if (strcmp(data, "IP") == 0) {
-    espSerial.println(WiFi.localIP());
+    espSerial.println(WiFi.localIP().toString());
   } else {
-    processJsonData(data);
-  }
-}
-
-void processJsonData(char* data) {
-  while (char* jsonStart = strstr(data, "{")) {
-    char* jsonEnd = strstr(jsonStart, "}");
-    if (jsonEnd) {
-      jsonEnd++;
-      *jsonEnd = '\0';
-      StaticJsonDocument<256> doc;
-      DeserializationError error = deserializeJson(doc, jsonStart);
-      if (error) {
-        Serial.print("deserializeJson() failed: ");
-        Serial.println(error.c_str());
-        data = jsonEnd + 1;
-        continue;
+    char* token = strtok(data, ",");
+    while (token != NULL) {
+      if (strncmp(token, "V:", 2) == 0) {
+        voltage = atof(token + 2);
+      } else if (strncmp(token, "C:", 2) == 0) {
+        current = atof(token + 2);
+      } else if (strncmp(token, "T:", 2) == 0) {
+        temperature = atof(token + 2);
+      } else if (strncmp(token, "P:", 2) == 0) {
+        power = atof(token + 2);
       }
-      voltage = doc["voltage"];
-      current = doc["current"];
-      temperature = doc["temperature"];
-      power = doc["power"];
-      Serial.print("Voltage: ");
-      Serial.println(voltage);
-      Serial.print("Current: ");
-      Serial.println(current);
-      Serial.print("Temperature: ");
-      Serial.println(temperature);
-      Serial.print("Power: ");
-      Serial.println(power);
-      data = jsonEnd + 1;
-    } else {
-      break;
+      token = strtok(NULL, ",");
     }
+
+    Serial.print("Voltage: ");
+    Serial.println(voltage);
+    Serial.print("Current: ");
+    Serial.println(current);
+    Serial.print("Temperature: ");
+    Serial.println(temperature);
+    Serial.print("Power: ");
+    Serial.println(power);
   }
 }
 
@@ -230,7 +226,6 @@ void handleUART() {
     }
   }
 }
-
 
 void checkSPIFFSFiles() {
   const char* files[] = {

@@ -38,34 +38,7 @@ extern osMutexId_t lcdMutexHandle;
 extern osSemaphoreId_t uartRxSemaphoreHandle;
 extern UART_HandleTypeDef huart2;
 
-typedef struct {
-    char voltage_data[20];
-    char current_data[20];
-    char temperature_data[20];
-    char power_data[20];
-} packetData;
-extern packetData transmitData;
 
-typedef struct CoordinateNode {
-    float x, y, z;
-    struct CoordinateNode *next;
-} CoordinateNode;
-extern CoordinateNode *head;
-
-typedef struct {
-	float coordinate_X;
-	float coordinate_Y;
-	float coordinate_Z;
-}Coordinate;
-extern Coordinate Coor;
-typedef struct {
-	uint8_t buffer[100];
-	uint8_t rxBuffer[256];
-	char cmd[256];
-	char ip_config[20];
-	uint8_t cmdstate;
-}Data_Buffer;
-extern Data_Buffer SaveData;
 /* USER CODE END PTD */
 
 void prepare_data(void);

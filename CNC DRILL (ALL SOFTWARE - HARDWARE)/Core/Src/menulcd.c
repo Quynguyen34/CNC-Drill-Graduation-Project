@@ -935,6 +935,7 @@ void handle_start_button_press(void)
     	state.start_press = 1;
     	state.stop_press = 0;
         HAL_GPIO_WritePin(drill_port, drill_pin, 1);
+    	HAL_UART_Transmit(&huart2, (uint8_t*)"IP\n", 3, 10);
     	StartProgram();
     }
 }
@@ -1004,7 +1005,7 @@ void resetProgram(void)
      * code here
      *
      * */
-    //HOME();
+    HOME();
     // Start display lcd
     lcd_clear();
     lcd_put_cur(1, 2);
@@ -1026,6 +1027,6 @@ void StartProgram(void){
     lcd_send_string("PROGRAM  START");
     lcd_put_cur(2, 0);
     lcd_send_string("IP ADD:");
-    lcd_put_cur(2, 8);
-    lcd_send_string(SaveData.ip_config);
+    lcd_put_cur(2, 7);
+    lcd_send_string(ip_config);
 }
