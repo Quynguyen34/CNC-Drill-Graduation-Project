@@ -1140,7 +1140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateWoodPiecePosition(newX, newZ);
       updateDrillBitPosition(newY);
-    }, 10);
+    }, 50);
   }
 
   function startMovement() {

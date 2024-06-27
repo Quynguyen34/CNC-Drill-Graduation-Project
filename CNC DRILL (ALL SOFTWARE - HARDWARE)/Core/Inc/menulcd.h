@@ -11,7 +11,7 @@
 #include "stdint.h"
 #define KALMAN_Q 0.0001f
 #define KALMAN_R 0.1f
-#define EMA_ALPHA_VOLT 0.01f
+#define EMA_ALPHA_VOLT 0.005f
 #define EMA_ALPHA_CURR 0.001f
 #define DEBOUNCE_DELAY 80 // Example debounce delay, adjust as needed
 

@@ -205,7 +205,7 @@ void MoveToPosZ(float z) {
     if (Stepper3.run_state != 1) {
         Accel_Stepper_Move(&Stepper3, CNC_pos.MoveZ, CNC_pos.accel3, CNC_pos.jerk3, CNC_pos.pos3dot);
         while(Stepper3.run_state != STOP){
-        	if(HAL_GPIO_ReadPin(moveZplus_port, moveZplus_pin) == CNC_pos.Lsw5){
+        	if(HAL_GPIO_ReadPin(moveZplus_port, moveZplus_pin) ==  CNC_pos.Lsw5){
         		handle_stop_button_press();
         	}
 			osDelay(1);

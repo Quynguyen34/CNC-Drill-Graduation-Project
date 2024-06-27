@@ -552,11 +552,21 @@ void X_count(void)
 {
     while (HAL_GPIO_ReadPin(up_port, upKey) == GPIO_PIN_RESET)
     {
+        if (HAL_GPIO_ReadPin(moveXplus_port, moveXplus_pin) == CNC_pos.Lsw1)
+        {
+        	state.stop_press = 1;
+            break;
+        }
         LCD_adc.typeX_value++;
         stepX(abs(LCD_adc.typeX_value), 0, 15);
     }
     while (HAL_GPIO_ReadPin(down_port, downKey) == GPIO_PIN_RESET)
     {
+        if (HAL_GPIO_ReadPin(moveXsub_port, moveXsub_pin) == CNC_pos.Lsw2)
+        {
+        	state.stop_press = 1;
+            break;
+        }
         LCD_adc.typeX_value--;
         stepX(abs(LCD_adc.typeX_value), 1, 15);
     }
@@ -566,11 +576,21 @@ void Y_count(void)
 {
     while (HAL_GPIO_ReadPin(up_port, upKey) == GPIO_PIN_RESET)
     {
+        if (HAL_GPIO_ReadPin(moveYplus_port, moveYplus_pin) == CNC_pos.Lsw3)
+        {
+        	state.stop_press = 1;
+            break;
+        }
         LCD_adc.typeY_value++;
         stepY(abs(LCD_adc.typeY_value), 0, 15);
     }
     while (HAL_GPIO_ReadPin(down_port, downKey) == GPIO_PIN_RESET)
     {
+        if (HAL_GPIO_ReadPin(moveYsub_port, moveYsub_pin) == CNC_pos.Lsw4)
+        {
+        	state.stop_press = 1;
+            break;
+        }
         LCD_adc.typeY_value--;
         stepY(abs(LCD_adc.typeY_value), 1, 15);
     }
@@ -580,12 +600,22 @@ void Z_count(void)
 {
     while (HAL_GPIO_ReadPin(up_port, upKey) == GPIO_PIN_RESET)
     {
-        LCD_adc.typeZ_value++;
+        if (HAL_GPIO_ReadPin(moveZsub_port, moveZsub_pin) ==  CNC_pos.Lsw6)
+        {
+        	state.stop_press = 1;
+            break;
+        }
+        LCD_adc.typeZ_value--;
         stepZ(abs(LCD_adc.typeZ_value), 1, 15);
     }
     while (HAL_GPIO_ReadPin(down_port, downKey) == GPIO_PIN_RESET)
     {
-        LCD_adc.typeZ_value--;
+        if (HAL_GPIO_ReadPin(moveZplus_port, moveZplus_pin) ==  CNC_pos.Lsw5)
+        {
+        	state.stop_press = 1;
+            break;
+        }
+        LCD_adc.typeZ_value++;
         stepZ(abs(LCD_adc.typeZ_value), 0, 15);
     }
 }
