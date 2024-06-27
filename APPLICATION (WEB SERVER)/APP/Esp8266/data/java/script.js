@@ -993,3 +993,223 @@ const zRange = document.getElementById('z-position');
 const zNumber = document.getElementById('z-value');
 syncInputs(zRange, zNumber);
 
+/* map cnc */
+document.addEventListener("DOMContentLoaded", function () {
+  const drillBit = document.getElementById("drill-bit");
+  const crosshair = document.getElementById("crosshair");
+  const coordinatesDisplay = document.getElementById("coordinates");
+
+  const xRange = document.getElementById('x-position');
+  const yRange = document.getElementById('y-position');
+  const zRange = document.getElementById('z-position');
+  const xNumber = document.getElementById('x-value');
+  const yNumber = document.getElementById('y-value');
+  const zNumber = document.getElementById('z-value');
+
+  const woodPiece = document.querySelector('.wood-piece');
+  const yellowBarleft = document.querySelector('.yellow-bar.left');
+  const yellowBarright = document.querySelector('.yellow-bar.right');
+
+  let position = { x: 0, y: 0, z: 0 };
+  let intervalId = null;
+  let positions = [];
+  let currentIndex = 0;
+  let lastPositions = [];
+
+  const smallScreen = window.matchMedia("(max-width: 740px)");
+
+  function syncInputs(rangeInput, numberInput, positionType) {
+    rangeInput.addEventListener('input', function () {
+      const value = (this.value - this.min) / (this.max - this.min) * 100;
+      this.style.background = `linear-gradient(to right, #42b0ff ${value}%, #ccc ${value}%)`;
+      numberInput.value = this.value;
+      if (positionType === 'woodPiece') {
+        updateWoodPiecePosition(parseInt(xRange.value, 10), parseInt(zRange.value, 10));
+      } else if (positionType === 'drillBit') {
+        updateDrillBitPosition(parseInt(yRange.value, 10));
+      }
+    });
+
+    numberInput.addEventListener('input', function () {
+      rangeInput.value = this.value;
+      const value = (this.value - rangeInput.min) / (rangeInput.max - rangeInput.min) * 100;
+      rangeInput.style.background = `linear-gradient(to right, #42b0ff ${value}%, #ccc ${value}%)`;
+      if (positionType === 'woodPiece') {
+        updateWoodPiecePosition(parseInt(xRange.value, 10), parseInt(zRange.value, 10));
+      } else if (positionType === 'drillBit') {
+        updateDrillBitPosition(parseInt(yRange.value, 10));
+      }
+    });
+    rangeInput.dispatchEvent(new Event('input'));
+  }
+
+  syncInputs(xRange, xNumber, 'woodPiece'); // Control wood - yellowbar
+  syncInputs(yRange, yNumber, 'drillBit'); // Control drill bit center
+  syncInputs(zRange, zNumber, 'woodPiece'); // Control wood - yellowbar
+
+  function cncToPixels(cncX, cncY) {
+    const isSmallScreen = smallScreen.matches;  
+    const panelWidth = isSmallScreen ? 295 : 497;
+    const panelHeight = isSmallScreen ? 347 : 498;
+    
+    const originX = panelWidth;
+    const originY = panelHeight;
+  
+    const pixelY = originY - (cncY / 1650) * panelHeight;
+    const pixelX = originX - (cncX / 2250) * panelWidth;
+  
+    return { pixelX, pixelY };
+  }
+  
+  
+
+  function updateWoodPiecePosition(cncX, cncZ) {
+    position.x = parseInt(cncX, 10);
+    position.z = parseInt(cncZ, 10);
+    const { pixelX, pixelY } = cncToPixels(position.x, 0); // Using 0 for y-axis for woodPiece
+
+    const panelWidth = smallScreen.matches ? 295 : 497;
+    const panelHeight = smallScreen.matches ? 347 : 498;
+
+    // Update position for woodPiece and yellowBar
+    const yellowBarHeight = yellowBarleft.offsetHeight;
+    const maxPenHeight = panelHeight - yellowBarHeight;
+
+    yellowBarleft.style.top = `${Math.max(0, Math.min(maxPenHeight, pixelX - yellowBarHeight))}px`;
+    yellowBarright.style.top = `${Math.max(0, Math.min(maxPenHeight, pixelX - yellowBarHeight))}px`;
+
+    const yellowBarLeftPos = yellowBarleft.offsetLeft;
+    const yellowBarRightPos = yellowBarright.offsetLeft + yellowBarright.offsetWidth;
+    const centerPosition = (yellowBarLeftPos + yellowBarRightPos) / 2;
+
+    const woodPieceWidth = woodPiece.offsetWidth;
+    const woodPieceLeft = Math.max(0, Math.min(panelWidth - woodPieceWidth, centerPosition - (woodPieceWidth / 2)));
+    woodPiece.style.left = `${woodPieceLeft}px`;
+
+    const bottomPosition = yellowBarright.offsetTop + yellowBarright.offsetHeight;
+    woodPiece.style.top = `${Math.max(0, bottomPosition - woodPiece.offsetHeight * 1.5)}px`;
+  }
+
+  function updateDrillBitPosition(cncY) {
+    position.y = parseInt(cncY, 10);
+    const { pixelX, pixelY } = cncToPixels(1570, position.y); // Using 0 for x-axis for drillBit
+
+    const panelWidth = smallScreen.matches ? 295 : 497;
+    const panelHeight = smallScreen.matches ? 347 : 498;
+
+    // Update position for drillBit and crosshair
+    drillBit.style.top = `${pixelX - 10}px`;
+    drillBit.style.left = `${pixelY - 10}px`;
+    crosshair.style.top = `${pixelX - 2}px`;
+    crosshair.style.left = `${pixelY - 2}px`;
+    coordinatesDisplay.textContent = `X: ${position.x}, Y: ${position.y}, Z: ${position.z}`;
+  }
+
+  function parseTablePositions() {
+    const tableBody = document.getElementById('table-body');
+    const rows = tableBody.getElementsByTagName('tr');
+    positions = [];
+    for (let i = 0; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName('td');
+      let x = parseInt(cells[0].textContent, 10);
+      let y = parseInt(cells[1].textContent, 10);
+      let z = parseInt(cells[2].textContent, 10);
+      positions.push({ x, y, z });
+    }
+  }
+
+  function moveToTarget(targetPosition, callback) {
+    const speed = 5;
+    clearInterval(intervalId);
+    intervalId = setInterval(() => {
+      let deltaX = targetPosition.x - position.x;
+      let deltaY = targetPosition.y - position.y;
+      let deltaZ = targetPosition.z - position.z;
+
+      if (Math.abs(deltaX) <= speed && Math.abs(deltaY) <= speed && Math.abs(deltaZ) <= speed) {
+        updateWoodPiecePosition(targetPosition.x, targetPosition.z);
+        updateDrillBitPosition(targetPosition.y);
+        clearInterval(intervalId);
+        if (callback) callback();
+        return;
+      }
+
+      let newX = position.x + (deltaX > 0 ? speed : -speed);
+      let newY = position.y + (deltaY > 0 ? speed : -speed);
+      let newZ = position.z + (deltaZ > 0 ? speed : -speed);
+
+      updateWoodPiecePosition(newX, newZ);
+      updateDrillBitPosition(newY);
+    }, 10);
+  }
+
+  function startMovement() {
+    updateWoodPiecePosition(0, 0);
+    updateDrillBitPosition(0); // Initialize drill bit position
+    parseTablePositions();
+    if (positions.length === 0) {
+      positions = lastPositions.slice();
+    } else {
+      lastPositions = positions.slice();
+    }
+
+    if (positions.length === 0) return;
+
+    currentIndex = 0;
+    moveToNextPosition();
+  }
+
+  function moveToNextPosition() {
+    if (currentIndex >= positions.length) {
+      currentIndex = 0;
+    }
+    const targetPosition = positions[currentIndex];
+    currentIndex++;
+    moveToTarget(targetPosition, moveToNextPosition);
+  }
+
+  document.getElementById("startButton").addEventListener("click", function () {
+    startMovement();
+  });
+
+  document.getElementById("stopButton").addEventListener("click", function () {
+    clearInterval(intervalId);
+  });
+
+  document.getElementById("resetButton").addEventListener("click", function () {
+    clearInterval(intervalId);
+    updateWoodPiecePosition(0, 0);
+    updateDrillBitPosition(0); // Reset drill bit position
+    positions = [];
+
+    const bottomPosition = yellowBarright.offsetTop + yellowBarright.offsetHeight;
+    woodPiece.style.top = `${bottomPosition - woodPiece.offsetHeight * 1.5}px`;
+    yellowBarleft.style.top = `${yellowBarright.offsetTop}px`;
+    yellowBarright.style.top = `${yellowBarright.offsetTop}px`;
+    woodPiece.style.left = yellowBarleft.style.left;
+  });
+
+  smallScreen.addEventListener('change', function() {
+    updateWoodPiecePosition(position.x, position.z);
+    updateDrillBitPosition(position.y);
+  });
+
+  updateWoodPiecePosition(0, 0);
+  updateDrillBitPosition(0); // Initialize drill bit position
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

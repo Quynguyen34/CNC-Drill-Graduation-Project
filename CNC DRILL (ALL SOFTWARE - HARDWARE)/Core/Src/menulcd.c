@@ -87,6 +87,7 @@ void initialize_LCD(LCD_adc_t *lcd)
 
 void initialize_Kalman(Kalman_filter *kf)
 {
+	memset(kf->buffer, 0, sizeof(kf->buffer));
     kf->N = 10;
     kf->ema_filtered_value = 0.0f;
     kf->Q = KALMAN_Q;
@@ -180,6 +181,11 @@ uint16_t kalman_filter(Kalman_filter *kf, uint16_t ADC_Value)
 
 void vol_messure(void)
 {
+	static uint8_t is_initialized = 0;
+	if (!is_initialized) {
+		initialize_Kalman(&kalman_fil_volt);
+		is_initialized = 1;
+	}
     ADC_Select_CH10();  
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1);
@@ -199,6 +205,11 @@ void vol_messure(void)
 
 void cur_messure(void)
 {
+	static uint8_t is_initialized = 0;
+	if (!is_initialized) {
+		initialize_Kalman(&kalman_fil_curr);
+		is_initialized = 1;
+	}
     ADC_Select_CH11();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1);
@@ -212,10 +223,10 @@ void cur_messure(void)
     //    if (LCD_adc.sum1 < 0.43) LCD_adc.current = 0;
     //    LCD_adc.Temp = ((3.3 * kalman_fil_curr.filter_kal_cur / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
     	// Calculate CURRENT using the cubic polynomial equation
-    LCD_adc.sum1 = 0.00000009 * kalman_fil_curr.filter_kal * kalman_fil_curr.filter_kal + 0.0102 * kalman_fil_curr.filter_kal - 34.52249168 + l ;
-    if (LCD_adc.sum1 > 0.5 && LCD_adc.sum1 < 15)
+    LCD_adc.sum1 = 0.00000009 * kalman_fil_curr.filter_kal * kalman_fil_curr.filter_kal + 0.0102 * kalman_fil_curr.filter_kal - 34.52249168 + 0.14 + l ;
+    if (LCD_adc.sum1 > 0.1 && LCD_adc.sum1 < 15)
         LCD_adc.current = LCD_adc.sum1;
-    if (LCD_adc.sum1 < 0.5)
+    if (LCD_adc.sum1 < 0.1)
         LCD_adc.current = 0;
 
     HAL_ADC_Stop(&hadc1);
@@ -228,11 +239,7 @@ void power_messure(void)
 
 void temperature_messure(void)
 {
-
-        LCD_adc.T = (LCD_adc.voltage * LCD_adc.C) / LCD_adc.power;
-        LCD_adc.joule = LCD_adc.power * LCD_adc.T;
-        //LCD_adc.temp = LCD_adc.joule / (LCD_adc.m * 20);
-        LCD_adc.Temp = ((3.3 * kalman_fil_curr.filter_kal / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
+    LCD_adc.Temp = ((3.6 * kalman_fil_curr.filter_kal / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
 }
 
 void startADC(void)

@@ -262,6 +262,7 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
       if (state.start_press) {
+    	  HAL_GPIO_WritePin(drill_port, drill_pin, 1);
           move_to_coordinates();
       }
 

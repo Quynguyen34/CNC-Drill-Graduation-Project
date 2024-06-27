@@ -1,4 +1,4 @@
-#include <ESP8266WiFi.h>
+  #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <FS.h>
@@ -36,7 +36,7 @@ void setup() {
 
   checkSPIFFSFiles();
   connectToWiFi();
-  setupRoutes();
+  setupServer();
   server.begin();
 }
 
@@ -64,7 +64,7 @@ void connectToWiFi() {
   espSerial.begin(9600);
 }
 
-void setupRoutes() {
+void setupServer() {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index1.html", "text/html");
   });

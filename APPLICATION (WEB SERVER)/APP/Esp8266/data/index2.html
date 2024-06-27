@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TRITECH CNC</title>
+        <title>HCMUTE DRILL CNC</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
         <link rel="stylesheet" href="./css/base.css">
         <link rel="stylesheet" href="./css/main.css">
@@ -329,7 +329,57 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    <div class="grid__column-12-4">
+                                        <!-- map cnc -->
+                                        <div class="map-cnc-control">
+                                            <div class="coordinates" id="coordinates">X: 0, Y: 0, Z: 0</div>
+                                            <div class="map-cnc-control-panel">
+                                                <div id="cnc-map"></div>
+                                                <div class="drill-bit" id="drill-bit"></div>
+                                                <div class="crosshair" id="crosshair"></div>
+                                                <svg class="axis" width="100%" height="100%" style="position: absolute; top: 0; left: 0;">
+                                                    <defs>
+                                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                                                            <polygon points="0 0, 10 3.5, 0 7" />
+                                                        </marker>
+                                                    </defs>
+                                                    <!-- X-axis -->
+                                                    <line x1="100%" y1="100%" x2="100%" y2="0%" stroke="black" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
+                                                    <!-- Y-axis reversed -->
+                                                    <line x1="100%" y1="30%" x2="0%" y2="30%" stroke="black" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
+                                                    <!-- Grid lines -->
+                                                    <!-- Vertical grid lines -->
+                                                    <line x1="10%" y1="0" x2="10%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="20%" y1="0" x2="20%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="30%" y1="0" x2="30%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="40%" y1="0" x2="40%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="50%" y1="0" x2="50%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="60%" y1="0" x2="60%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="70%" y1="0" x2="70%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="80%" y1="0" x2="80%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="90%" y1="0" x2="90%" y2="100%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <!-- Horizontal grid lines -->
+                                                    <line x1="0" y1="10%" x2="100%" y2="10%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="20%" x2="100%" y2="20%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="40%" x2="100%" y2="40%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="50%" x2="100%" y2="50%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="60%" x2="100%" y2="60%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="70%" x2="100%" y2="70%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="80%" x2="100%" y2="80%" stroke="gray" stroke-dasharray="2,2" />
+                                                    <line x1="0" y1="90%" x2="100%" y2="90%" stroke="gray" stroke-dasharray="2,2" />
+                                                </svg>
+                                                <div class="axis-label x">axis X+</div>
+                                                <div class="axis-label y">axis Y+</div>
+                                                <div class="axis-label x-">axis X-</div>
+                                                <div class="axis-label y-">axis Y-</div>
+                                                <div class="wood-piece">
+                                                    <div class="drillable-area"></div>
+                                                </div>
+                                                <div class="yellow-bar left"></div>
+                                                <div class="yellow-bar right"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <table class="table">
                                         <thead>
                                             <tr>

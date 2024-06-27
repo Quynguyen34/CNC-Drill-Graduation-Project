@@ -982,6 +982,121 @@
     margin: 48px 0 25px;
 }
 
+
+.map-cnc-control {
+    display: flex; /* Enables flexbox layout */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    height: auto; /* Sets height to 100% of the parent container */
+    width: auto; /* Sets width to 100% of the parent container */
+    border: 4px solid #0f8fff; /* Adds a border with the specified color */
+    padding: 10px; /* Adds padding inside the container */
+    position: relative; /* Positions the element relative to its normal position */
+}
+
+.map-cnc-control-panel {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 2px solid #000000;
+    background-size: cover;
+}
+
+#cnc-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.drill-bit {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 4px solid red;
+    border-radius: 50%;
+    background-color: transparent;
+    z-index: 3;
+}
+
+.crosshair {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border: 2px solid red;
+    border-radius: 50%;
+    background-color: red;
+    z-index: 3;
+}
+
+.coordinates {
+    position: absolute;
+    font-size: 1.2rem;
+    top: -40px;
+    left: 10px;
+    background-color: #00a6ff;
+    padding: 5px;
+    border: 1px solid #4e8bf4;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.wood-piece {
+    position: absolute;
+    width: 450px; /* Adjusted width to match the image */
+    height: 150px; /* Adjusted height to match the image */
+    border: 4px solid rgb(243, 243, 45);
+    background-color: rgb(206, 206, 34);
+    left: 22px;
+    z-index: 2;
+  }
+
+.axis-label {
+    position: absolute;
+    
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+
+.axis-label.x {
+    top: -5px;
+    right: calc(0% - 60px);
+}
+
+.axis-label.y {
+    top: calc(30% - 10px);
+    left: -70px;
+}
+
+.axis-label.x- {
+    top: calc(100% - 10px);
+    right: calc(0% - 60px);
+}
+.axis-label.y- {
+    display: block;
+    width: 50px;
+    top: calc(30% - 10px);
+    left: 520px;
+}
+.yellow-bar {
+    position: absolute;
+    width: 50px;
+    height: 300px; /* Same height as wood piece */
+    border: 4px solid rgb(132, 93, 25);
+    background-color: rgb(231, 110, 4);
+    z-index: 1;
+  }
+  
+  .yellow-bar.left {
+    left: 0;
+  }
+  
+  .yellow-bar.right {
+    right: 0;
+  }
+
 /* footer */
 
 .footer {
