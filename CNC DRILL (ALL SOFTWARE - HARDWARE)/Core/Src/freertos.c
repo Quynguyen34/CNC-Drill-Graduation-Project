@@ -284,6 +284,8 @@ void StartADC(void *argument)
   /* USER CODE BEGIN StartADC */
   /* Infinite loop */
   //HAL_ADC_Start_DMA(&hadc1, (uint32_t*)LCD_adc.readValue, 2);
+  initialize_Kalman(&kalman_fil_volt);
+  initialize_Kalman(&kalman_fil_curr);
   for(;;)
   {
 	startADC();
@@ -418,3 +420,4 @@ void MX_FREERTOS_Init(void)
 
 }
 /* USER CODE END Application */
+

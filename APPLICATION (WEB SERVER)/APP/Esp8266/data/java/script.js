@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function() {
           color: 'smartPalette',
           breaks_gap: 0.06
         },
-        scale_range: [0, 20]
+        scale_range: [0, 25]
       },
       palette: {
         pointValue: '{%value/20}',
@@ -534,19 +534,19 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set up intervals to fetch data
     setInterval(function() {
       requestData("/voltage", chartVoltage, 'voltage');
-    }, 100);
+    }, 300);
   
     setInterval(function() {
       requestData("/current", chartCurrent, 'current');
-    }, 100);
+    }, 300);
 
     setInterval(function() {
       requestData("/temperature", chartTemperature, 'temperature');
-    }, 100);
+    }, 300);
 
     setInterval(function() {
       requestData("/power", chartPower, 'power');
-    }, 100);
+    }, 300);
   
 });
   
@@ -662,18 +662,18 @@ document.addEventListener("DOMContentLoaded", function() {
   // Update intervals
   setInterval(function() {
       requestData("/voltage", chartV);
-  }, 100);
+  }, 300);
   setInterval(function() {
       requestData("/current", chartC);
-  }, 100);
+  }, 300);
 
   setInterval(function() {
     requestData("/power", chartP);
-  }, 100);
+  }, 300);
 
   setInterval(function() {
       requestData("/temperature", chartT);
-  }, 100);
+  }, 300);
 
   // Function to request data
   function requestData(endpoint, chart) {
@@ -1119,10 +1119,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function moveToTarget(targetPosition, callback) {
-    const speed = 5;
+    const speed = 1;
     clearInterval(intervalId);
     intervalId = setInterval(() => {
-      let deltaX = targetPosition.x - position.x;
+      let deltaX = targetPosition.x - position.x; 
       let deltaY = targetPosition.y - position.y;
       let deltaZ = targetPosition.z - position.z;
 
@@ -1140,7 +1140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateWoodPiecePosition(newX, newZ);
       updateDrillBitPosition(newY);
-    }, 50);
+    }, 5);
   }
 
   function startMovement() {

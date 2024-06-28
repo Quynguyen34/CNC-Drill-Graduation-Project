@@ -5,7 +5,7 @@
 ../Core/Src/freertos.c:197:6:MoveToPosZ	7
 ../Core/Src/freertos.c:243:6:StartDefaultTask	2
 ../Core/Src/freertos.c:282:6:StartADC	1
-../Core/Src/freertos.c:302:6:StartLCD	1
-../Core/Src/freertos.c:325:6:StartUART_TX	1
-../Core/Src/freertos.c:346:6:StartUART_RX	2
-../Core/Src/freertos.c:371:6:MX_FREERTOS_Init	1
+../Core/Src/freertos.c:304:6:StartLCD	1
+../Core/Src/freertos.c:327:6:StartUART_TX	1
+../Core/Src/freertos.c:348:6:StartUART_RX	2
+../Core/Src/freertos.c:373:6:MX_FREERTOS_Init	1

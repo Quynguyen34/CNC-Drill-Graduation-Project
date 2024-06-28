@@ -186,7 +186,7 @@ void vol_messure(void)
 		initialize_Kalman(&kalman_fil_volt);
 		is_initialized = 1;
 	}
-    ADC_Select_CH10();  
+    ADC_Select_CH10();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1);
     LCD_adc.readValue[0] = HAL_ADC_GetValue(&hadc1);
@@ -223,10 +223,10 @@ void cur_messure(void)
     //    if (LCD_adc.sum1 < 0.43) LCD_adc.current = 0;
     //    LCD_adc.Temp = ((3.3 * kalman_fil_curr.filter_kal_cur / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
     	// Calculate CURRENT using the cubic polynomial equation
-    LCD_adc.sum1 = 0.00000009 * kalman_fil_curr.filter_kal * kalman_fil_curr.filter_kal + 0.0102 * kalman_fil_curr.filter_kal - 34.52249168 + 0.14 + l ;
-    if (LCD_adc.sum1 > 0.1 && LCD_adc.sum1 < 15)
+    LCD_adc.sum1 = 0.00000009 * kalman_fil_curr.filter_kal * kalman_fil_curr.filter_kal + 0.0102 * kalman_fil_curr.filter_kal - 34.52249168 +0.7 + l ;
+    if (LCD_adc.sum1 > 0.4 && LCD_adc.sum1 < 15)
         LCD_adc.current = LCD_adc.sum1;
-    if (LCD_adc.sum1 < 0.1)
+    if (LCD_adc.sum1 < 0.4)
         LCD_adc.current = 0;
 
     HAL_ADC_Stop(&hadc1);

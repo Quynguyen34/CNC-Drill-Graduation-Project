@@ -18,9 +18,8 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "FreeRTOS.h"
-#include "task.h"
 #include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -57,7 +56,8 @@
 
 /* USER CODE END PM */
 
-/* Private variables ---------------------------------------------------------*/\
+/* Private variables ---------------------------------------------------------*/
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -104,8 +104,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_UART_Init();
-  MX_DMA_ADC_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();

@@ -30,14 +30,12 @@ extern "C" {
 
 /* USER CODE BEGIN Includes */
 extern ADC_HandleTypeDef hadc1;
-extern DMA_HandleTypeDef hdma_adc1;
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 void MX_ADC1_Init(void);
-void MX_DMA_ADC_Init(void);
 void ADC_Select_CH10(void);
 void ADC_Select_CH11(void);
 
