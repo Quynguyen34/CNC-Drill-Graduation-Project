@@ -181,11 +181,6 @@ uint16_t kalman_filter(Kalman_filter *kf, uint16_t ADC_Value)
 
 void vol_messure(void)
 {
-	static uint8_t is_initialized = 0;
-	if (!is_initialized) {
-		initialize_Kalman(&kalman_fil_volt);
-		is_initialized = 1;
-	}
     ADC_Select_CH10();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1);
@@ -202,35 +197,30 @@ void vol_messure(void)
         LCD_adc.voltage = 0;
     HAL_ADC_Stop(&hadc1);
 }
-
+uint16_t kalmancurrent;
 void cur_messure(void)
 {
-	static uint8_t is_initialized = 0;
-	if (!is_initialized) {
-		initialize_Kalman(&kalman_fil_curr);
-		is_initialized = 1;
-	}
     ADC_Select_CH11();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1);
     LCD_adc.readValue[1] = HAL_ADC_GetValue(&hadc1);
+
     uint16_t moving_avg_filtered = moving_average_filter(&kalman_fil_curr, LCD_adc.readValue[1]); // Apply moving average filter
     uint16_t ema_filtered = exponential_moving_average_filter(&kalman_fil_curr, moving_avg_filtered, EMA_ALPHA_CURR); // Apply EMA filter
     kalman_fil_curr.filter_kal = kalman_filter(&kalman_fil_curr, ema_filtered); // Apply Kalman filter
-    //    // Calculate CURRENT using the cubic polynomial equation
-    //    LCD_adc.sum1 = 0.0000002f * kalman_fil_curr.filter_kal_cur * kalman_fil_curr.filter_kal_cur - 0.0114f * kalman_fil_curr.filter_kal_cur + 35.5522898f -0.43 -  0.277999997; //- 0.897746623 + 0.105 + 0.085 - 0.02
-    //    if (LCD_adc.sum1 > 0.43 && LCD_adc.sum1 < 15) LCD_adc.current = LCD_adc.sum1;
-    //    if (LCD_adc.sum1 < 0.43) LCD_adc.current = 0;
-    //    LCD_adc.Temp = ((3.3 * kalman_fil_curr.filter_kal_cur / 4095 - LCD_adc.V25) / LCD_adc.Avg_Slope) + 25;
-    	// Calculate CURRENT using the cubic polynomial equation
-    LCD_adc.sum1 = 0.00000009 * kalman_fil_curr.filter_kal * kalman_fil_curr.filter_kal + 0.0102 * kalman_fil_curr.filter_kal - 34.52249168 +0.7 + l ;
-    if (LCD_adc.sum1 > 0.4 && LCD_adc.sum1 < 15)
+
+
+	LCD_adc.sum1 = 0.00000009 * kalman_fil_curr.filter_kal * kalman_fil_curr.filter_kal + 0.0102 * kalman_fil_curr.filter_kal - 34.52249168;
+
+    if (LCD_adc.sum1 > 0.4 && LCD_adc.sum1 < 15) {
         LCD_adc.current = LCD_adc.sum1;
-    if (LCD_adc.sum1 < 0.4)
+    } else if (LCD_adc.sum1 < 0.4) {
         LCD_adc.current = 0;
+    }
 
     HAL_ADC_Stop(&hadc1);
 }
+
 
 void power_messure(void)
 {
@@ -431,7 +421,8 @@ void menu_1(void)
         if (kalman_fil_volt.filter_kal != last_adc_vol)
         {
             last_adc_vol = kalman_fil_curr.filter_kal; // Fixed: updating last_adc instead of last_current
-            snprintf(LCD_adc.adc_volVal, 6, "%d", kalman_fil_volt.filter_kal);
+            float_to_string(kalman_fil_volt.filter_kal, LCD_adc.adc_volVal, 0);
+            //snprintf(LCD_adc.adc_volVal, 6, "%d", kalman_fil_volt.filter_kal);
             lcd_put_cur(2, 9);
             lcd_send_string(LCD_adc.adc_volVal);
         }
@@ -440,7 +431,8 @@ void menu_1(void)
         if (kalman_fil_curr.filter_kal != last_adc_cur)
         {
             last_adc_cur = kalman_fil_curr.filter_kal; // Fixed: updating last_adc instead of last_current
-            snprintf(LCD_adc.adc_curVal, 6, "%d", kalman_fil_curr.filter_kal);
+            float_to_string(kalman_fil_curr.filter_kal, LCD_adc.adc_curVal, 0);
+            //snprintf(LCD_adc.adc_curVal, 6, "%d", kalman_fil_curr.filter_kal);
             lcd_put_cur(3, 9);
             lcd_send_string(LCD_adc.adc_curVal);
         }

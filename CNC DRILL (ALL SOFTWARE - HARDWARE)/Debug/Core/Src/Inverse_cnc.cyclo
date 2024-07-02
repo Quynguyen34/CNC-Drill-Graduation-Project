@@ -1,4 +1,4 @@
 ../Core/Src/Inverse_cnc.c:14:6:initializeCNC_pos	1
 ../Core/Src/Inverse_cnc.c:39:6:trans_to_posXY	1
 ../Core/Src/Inverse_cnc.c:44:6:trans_to_posZ	1
-../Core/Src/Inverse_cnc.c:49:22:caculate_pos	1
+../Core/Src/Inverse_cnc.c:49:12:caculate_pos	1

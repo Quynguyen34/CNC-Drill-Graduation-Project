@@ -168,12 +168,12 @@ void Accel_Stepper_TIMIT_Handler(Acceleration_t *Accel_stepper){
  * decel : deceleration
  * rpm : speed at run state
  */
-void Accel_Stepper_Move(Acceleration_t *Accel_stepper, signed long long int step, unsigned long long int accel, unsigned long long int decel, unsigned long long int rpm)//acc*100
+void Accel_Stepper_Move(Acceleration_t *Accel_stepper, signed int step, unsigned int accel, unsigned int decel, unsigned int rpm)//acc*100
 {
 
-	unsigned long long int max_step_lim; //! Number of steps before we hit max speed.
-	unsigned long long int accel_lim;//! Number of steps before we must start deceleration (if accel does not hit max speed).
-	unsigned long long int speed = 2 * 3.14159 * rpm/60;
+	unsigned int max_step_lim; //! Number of steps before we hit max speed.
+	unsigned int accel_lim;//! Number of steps before we must start deceleration (if accel does not hit max speed).
+	unsigned int speed = 2 * 3.14159 * rpm/60;
 	Accel_stepper->step_count = 0;
 	if(step>0){
 		HAL_GPIO_WritePin(Accel_stepper->Dir_Port, Accel_stepper->Dir_Pin, 1);

@@ -155,12 +155,12 @@ void medium_command(void) {
 void high_command(void) {
     CNC_pos.max_speedXY = 50000;
     CNC_pos.max_speedZ = 10000;
-    CNC_pos.a_maxX = 20000;
-    CNC_pos.j_maxX = 10000;
+    CNC_pos.a_maxX = 30000;
+    CNC_pos.j_maxX = 30000;
     CNC_pos.a_maxY = 20000;
-    CNC_pos.j_maxY = 10000;
-    CNC_pos.a_maxZ = 1500;
-    CNC_pos.j_maxZ = 1000;
+    CNC_pos.j_maxY = 20000;
+    CNC_pos.a_maxZ = 2000;
+    CNC_pos.j_maxZ = 2000;
 }
 
 void add_coordinate(float x, float y, float z) {

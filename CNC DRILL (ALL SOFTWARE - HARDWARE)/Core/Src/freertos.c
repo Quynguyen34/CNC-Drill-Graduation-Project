@@ -60,7 +60,7 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .stack_size = 512 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for startADC */
 osThreadId_t startADCHandle;
@@ -119,8 +119,8 @@ osThreadId_t startUARTHandle;
 /* USER CODE BEGIN FunctionPrototypes */
 /*----------------------------------*/
 /* Config speed for stepper */
-double_t max3(double_t a, double_t b, double_t c) {
-	double_t n1 = max(a, b);
+int max3(int a, int b, int c) {
+	int n1 = max(a, b);
     return max(n1, c);
 }
 /* Function set home */
@@ -165,14 +165,15 @@ void HOME(void)
     }
 }
 /* Function control 3 axis */
+extern uint16_t kalmancurrent;
 //Move X-Y
 void MoveToPosXY(float x, float y) {
     trans_to_posXY(x,y);
     CNC_pos.MoveX = caculate_pos(CNC.set_posX, 161);
     CNC_pos.MoveY = caculate_pos(CNC.set_posY, 161);
-    long long int step_max = max3(llabs(CNC_pos.MoveX), llabs(CNC_pos.MoveY), llabs(CNC_pos.MoveZ));
-    double_t coef1 = fabs(CNC_pos.MoveX) / step_max;
-    double_t coef2 = fabs(CNC_pos.MoveY) / step_max;
+    int step_max = max3(abs(CNC_pos.MoveX), abs(CNC_pos.MoveY), abs(CNC_pos.MoveZ));
+    float coef1 = fabs(CNC_pos.MoveX) / step_max;
+    float coef2 = fabs(CNC_pos.MoveY) / step_max;
     CNC_pos.pos1dot = CNC_pos.max_speedXY * coef1;
     CNC_pos.pos2dot = CNC_pos.max_speedXY * coef2;
     CNC_pos.accel1 = CNC_pos.a_maxX * coef1;
@@ -197,8 +198,8 @@ void MoveToPosXY(float x, float y) {
 void MoveToPosZ(float z) {
     trans_to_posZ(z);
     CNC_pos.MoveZ = caculate_pos(CNC.set_posZ, 161);
-    long long int step_max = max3(llabs(CNC_pos.MoveX), llabs(CNC_pos.MoveY), llabs(CNC_pos.MoveZ));
-    double_t coef3 = fabs(CNC_pos.MoveZ) / step_max;
+    int step_max = max3(abs(CNC_pos.MoveX), abs(CNC_pos.MoveY), abs(CNC_pos.MoveZ));
+    float coef3 = fabs(CNC_pos.MoveZ) / step_max;
     CNC_pos.pos3dot = CNC_pos.max_speedZ * coef3;
     CNC_pos.accel3 = CNC_pos.a_maxZ * coef3;
     CNC_pos.jerk3 = CNC_pos.j_maxZ * coef3;
@@ -283,9 +284,7 @@ void StartADC(void *argument)
 {
   /* USER CODE BEGIN StartADC */
   /* Infinite loop */
-  //HAL_ADC_Start_DMA(&hadc1, (uint32_t*)LCD_adc.readValue, 2);
-  initialize_Kalman(&kalman_fil_volt);
-  initialize_Kalman(&kalman_fil_curr);
+  //HAL_ADC_Start	_DMA(&hadc1, (uint32_t*)LCD_adc.readValue, 2);
   for(;;)
   {
 	startADC();

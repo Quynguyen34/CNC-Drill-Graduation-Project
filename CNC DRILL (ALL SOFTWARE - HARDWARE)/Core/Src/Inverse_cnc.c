@@ -46,7 +46,7 @@ void trans_to_posZ(float z)
 	CNC.set_posZ = z - CNC.pos_z;
 }
 
-signed long long int caculate_pos(double pos, double pwm)
+signed int caculate_pos(float pos, float pwm)
 {
 	return pos*pwm;
 }

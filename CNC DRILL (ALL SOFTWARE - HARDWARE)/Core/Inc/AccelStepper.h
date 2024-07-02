@@ -44,22 +44,22 @@ typedef struct {
 //  Direction stepper motor should move.
 	unsigned char dir;
 //  Counter peroid of timer delay (ARR). At start this value set the accelration rate.
-	unsigned long long int step_delay;
+	unsigned int step_delay;
 //  step_pos to start deceleration
-	unsigned long long int decel_start;
+	unsigned int decel_start;
 //  Number of stepp for deceleration(in negative).
-	signed long long int decel_val;
+	signed int decel_val;
 //  Minimum time ARR (max speed)
-	signed long long int min_step_delay;
+	signed int min_step_delay;
 //  Counter used when accelerateing/decelerateing to calculate step_delay.
-	signed long long int accel_count;
+	signed int accel_count;
 //  Counting steps when moving.
-	unsigned long long int step_count;
+	unsigned int step_count;
 //  Keep track of remainder from new_step-delay calculation to increase accuracy
-	unsigned long long int rest;
-	unsigned long long int new_step_delay;// Holds next delay period.
+	unsigned int rest;
+	unsigned int new_step_delay;// Holds next delay period.
 //  Remember the last step delay used when accelerating.
-	unsigned long long int last_accel_delay;
+	unsigned int last_accel_delay;
 
 	GPIO_TypeDef* Step_Port;
 	GPIO_TypeDef* Dir_Port;
@@ -74,7 +74,7 @@ extern Acceleration_t Stepper3;
 
 void Accel_Stepper_SetTimer(Acceleration_t *Accel_stepper, TIM_HandleTypeDef* htim);
 void Accel_Stepper_SetPin(Acceleration_t *Accel_stepper, GPIO_TypeDef* step_port, uint16_t step_pin, GPIO_TypeDef* dir_port, uint16_t dir_pin);
-void Accel_Stepper_Move(Acceleration_t *Accel_stepper, signed long long int step, unsigned long long int accel, unsigned long long int decel, unsigned long long int rpm);//acc*100
+void Accel_Stepper_Move(Acceleration_t *Accel_stepper, signed int step, unsigned int accel, unsigned int decel, unsigned int rpm);//acc*100
 void Accel_Stepper_TIMIT_Handler(Acceleration_t *Accel_stepper);
 void Accel_Stepper_Stop(Acceleration_t *Accel_stepper);
 #endif /* INC_ACCELSTEPPER_H_ */
