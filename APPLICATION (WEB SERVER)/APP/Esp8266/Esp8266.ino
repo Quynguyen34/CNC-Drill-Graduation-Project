@@ -9,8 +9,8 @@
 
 SoftwareSerial espSerial(RX_PIN, TX_PIN);  // Create SoftwareSerial object for UART communication
 
-const char* wifi_ssid = "UTE.Aruba325";
-const char* wifi_password = "vnhcmute";
+const char* wifi_ssid = "Wis";
+const char* wifi_password = "Quy*2002";
 
 AsyncWebServer server(80);
 
