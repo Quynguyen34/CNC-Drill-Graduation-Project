@@ -1059,3 +1059,4 @@ void StartProgram(void){
     lcd_put_cur(2, 7);
     lcd_send_string(ip_config);
 }
+
